@@ -6,10 +6,12 @@ vector<string> StringSplitter(string line)
     string word;
 
     vector<string> words;
-    
-    while (s >> word) {
+
+    while (s >> word)
+    {
         words.push_back(word);
     }
-    
+
     return words;
 }
+
