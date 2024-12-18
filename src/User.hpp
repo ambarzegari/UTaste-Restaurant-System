@@ -20,6 +20,8 @@ public:
     User(string username_, string password_);
     bool CheckUsername(string username_);
     bool CheckPassword(string password_);
+    void ChangeStateToLoggedOut();
+    void ChangeStateToInApp();
 };
 
 

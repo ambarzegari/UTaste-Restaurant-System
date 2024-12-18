@@ -17,3 +17,13 @@ bool User::CheckPassword(string password_)
 {
     return password == password_;
 }
+
+void User::ChangeStateToLoggedOut()
+{
+    state = LOGGED_OUT;
+}
+
+void User::ChangeStateToInApp()
+{
+    state = IN_APP;
+}

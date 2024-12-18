@@ -19,6 +19,12 @@ const string EMPTY = "Empty";
 const string BAD_REQUEST = "Bad Request";
 const string NOT_FOUND = "Not Found";
 
+const string SIGN_UP = "signup";
+const string LOG_IN = "login";
+const string LOG_OUT = "logout";
+const string USER_NAME = "username";
+const string PASSWORD = "password";
+
 vector<string> StringSplitter(string line);
 
 #endif
