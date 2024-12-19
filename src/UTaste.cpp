@@ -84,6 +84,11 @@ void UTaste::SignUp(vector<string> requests)
         throw runtime_error(NOT_FOUND);
     }
 
+    requests[4].erase(requests[4].begin());
+    requests[4].erase(requests[4].end());
+    requests[6].erase(requests[6].begin());
+    requests[6].erase(requests[6].end());
+
     User *new_user = new User(requests[4], requests[6]);
 
     app_users.push_back(new_user);
@@ -114,7 +119,12 @@ void UTaste::LogIn(vector<string> requests)
     {
         throw runtime_error(PERMISSION_DENIED);
     }
-    
+
+    requests[4].erase(requests[4].begin());
+    requests[4].erase(requests[4].end());
+    requests[6].erase(requests[6].begin());
+    requests[6].erase(requests[6].end());
+
     for (auto user_ : app_users)
     {
         if (user_->CheckUsername(requests[4]))
