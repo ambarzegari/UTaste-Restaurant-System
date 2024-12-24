@@ -1,3 +1,9 @@
 POST logout ?
 POST signup ? username "amir" password "ghjkl"
-POST
+POST signup ? username "ali" password "olkmn"
+POST login ? username "amir" password "olkmn"
+POST logout ?
+POST signup ? username "ali" password "olkmn"
+POST signup ? username "amir" password "ghjkl"
+POST logout ?
+POST login ? username "amir" password "olkmn"

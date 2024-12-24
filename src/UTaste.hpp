@@ -2,15 +2,19 @@
 #define Utaste_HPP
 
 #include "User.hpp"
+#include "District.hpp"
 
 class UTaste
 {
 private:
-    vector<User*> app_users;
-    User* user; 
+    vector<User *> app_users;
+    User *user;
+    vector<District *> districts;
 
 public:
     UTaste();
+    void GetDataFromResturantsFile(char argv[]);
+    void GetDataFromDistrictsFile(char argv[]);
     void IoHandler();
 
     void POSTHandler(vector<string> requests);
@@ -21,10 +25,6 @@ public:
     void PUTHandler(vector<string> requests);
     void DELETEHandler(vector<string> requests);
     void GETHandler(vector<string> requests);
-
 };
-
-
-
 
 #endif

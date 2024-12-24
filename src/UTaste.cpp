@@ -5,6 +5,74 @@ UTaste::UTaste()
     user = nullptr;
 }
 
+void UTaste::GetDataFromResturantsFile(char argv[])
+{
+    ifstream ResturantsFile(argv);
+    string line, word;
+    getline(ResturantsFile, line);
+
+    while (getline(ResturantsFile, line))
+    {
+        /* code */
+    }
+}
+
+void UTaste::GetDataFromDistrictsFile(char argv[])
+{
+    ifstream ResturantsFile(argv);
+    string line, word;
+    District *dist_ptr;
+    getline(ResturantsFile, line);
+
+    while (getline(ResturantsFile, line))
+    {
+        stringstream X(line);
+        for (int i = 1; getline(X, word, ','); i++)
+        {
+            if (i == 1)
+            {
+                bool founded = true;
+                for (auto nei : districts)
+                {
+                    if (nei->GetName() == word)
+                    {
+                        founded = false;
+                        dist_ptr = nei;
+                    }
+                }
+                if (founded)
+                {
+                    dist_ptr = new District(word);
+                    districts.push_back(dist_ptr);
+                }
+            }
+            if (i == 2)
+            {
+                stringstream Y(word);
+                string neigh;
+                for (int j = 1; getline(Y, neigh, ';'); j++)
+                {
+                    bool founded = true;
+                    for (auto nei : districts)
+                    {
+                        if (nei->GetName() == neigh)
+                        {
+                            founded = false;
+                            dist_ptr->AddNeighbors(nei);
+                        }
+                    }
+                    if (founded)
+                    {
+                        District *new_dist = new District(neigh);
+                        districts.push_back(new_dist);
+                        dist_ptr->AddNeighbors(new_dist);
+                    }
+                }
+            }
+        }
+    }
+}
+
 void UTaste::IoHandler()
 {
     string line;
@@ -36,7 +104,7 @@ void UTaste::IoHandler()
         }
         catch (const exception &e)
         {
-            cerr << e.what() << endl;
+            cout << e.what() << endl;
         }
 
         requests.clear();
@@ -85,12 +153,12 @@ void UTaste::SignUp(vector<string> requests)
     }
 
     requests[4].erase(requests[4].begin());
-    requests[4].erase(requests[4].end());
+    requests[4].erase(requests[4].end() - 1);
     requests[6].erase(requests[6].begin());
-    requests[6].erase(requests[6].end());
+    requests[6].erase(requests[6].end() - 1);
 
     User *new_user = new User(requests[4], requests[6]);
-
+    user = new_user;
     app_users.push_back(new_user);
     cout << "OK" << endl;
 }
@@ -121,9 +189,9 @@ void UTaste::LogIn(vector<string> requests)
     }
 
     requests[4].erase(requests[4].begin());
-    requests[4].erase(requests[4].end());
+    requests[4].erase(requests[4].end() - 1);
     requests[6].erase(requests[6].begin());
-    requests[6].erase(requests[6].end());
+    requests[6].erase(requests[6].end() - 1);
 
     for (auto user_ : app_users)
     {
