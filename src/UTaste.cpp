@@ -56,16 +56,17 @@ void UTaste::GetDataFromResturantsFile(char argv[])
         }
         dist_ptr->AddResturant(name, menu, op_t, cl_t, num);
     }
+    ResturantsFile.close();
 }
 
 void UTaste::GetDataFromDistrictsFile(char argv[])
 {
-    ifstream ResturantsFile(argv);
+    ifstream DistrictFile(argv);
     string line, word;
     District *dist_ptr;
-    getline(ResturantsFile, line);
+    getline(DistrictFile, line);
 
-    while (getline(ResturantsFile, line))
+    while (getline(DistrictFile, line))
     {
         stringstream X(line);
         for (int i = 1; getline(X, word, ','); i++)
@@ -115,6 +116,8 @@ void UTaste::GetDataFromDistrictsFile(char argv[])
     sort(districts.begin(), districts.end(),
          [](District *left, District *right)
          { return (left->GetName() < right->GetName()); });
+
+    DistrictFile.close();
 }
 
 void UTaste::IoHandler()
@@ -258,7 +261,35 @@ void UTaste::LogIn(vector<string> requests)
 
 void UTaste::PUTHandler(vector<string> requests)
 {
+    if (requests[1] == MY_DISTRICT)
+    {
+        SetUserDistrict(requests);
+    }
+    else
+    {
+        throw runtime_error(NOT_FOUND);
+    }
 }
+
+void UTaste::SetUserDistrict(vector<string> requests)
+{
+    if (requests[3] != DISTRICT)
+    {
+        throw runtime_error(NOT_FOUND);
+    }
+
+    for (auto dist : districts)
+    {
+        if (dist->GetName() == requests[4])
+        {
+            user->SetDistrict(dist);
+            cout << OK << endl;
+            return;
+        }
+    }
+    throw runtime_error(NOT_FOUND);
+}
+
 void UTaste::DELETEHandler(vector<string> requests)
 {
 }
@@ -268,6 +299,11 @@ void UTaste::GETHandler(vector<string> requests)
     {
         ShowDistrict(requests);
     }
+    else if (requests[1] == RESTURANTS)
+    {
+        ShowResturantsList(requests);
+    }
+
     else
     {
         throw runtime_error(NOT_FOUND);
@@ -292,6 +328,11 @@ void UTaste::ShowDistrict(vector<string> requests)
     }
     else
     {
+        if (requests[3] != DISTRICT)
+        {
+            throw runtime_error(NOT_FOUND);
+        }
+
         for (auto dist : districts)
         {
             if (dist->GetName() == requests[4])
@@ -302,4 +343,10 @@ void UTaste::ShowDistrict(vector<string> requests)
         }
         throw runtime_error(NOT_FOUND);
     }
+}
+
+void ShowResturantsList(vector<string> requests)
+{
+    District* dist;
+    user->G
 }

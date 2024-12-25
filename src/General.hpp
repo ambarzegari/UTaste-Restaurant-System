@@ -29,6 +29,10 @@ const string PASSWORD = "password";
 
 const string DISTRICTS = "districts";
 const string DISTRICT = "district";
+const string MY_DISTRICT = "my_district";
+
+const string RESTURANTS = "resturants";
+const string FOOD_NAME = "food_name";
 
 vector<string> StringSplitter(string line);
 

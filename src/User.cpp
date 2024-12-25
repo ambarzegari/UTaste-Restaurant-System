@@ -27,3 +27,13 @@ void User::ChangeStateToInApp()
 {
     state = IN_APP;
 }
+
+void User::SetDistrict(District *dist)
+{
+    district = dist;
+}
+
+District* User::GetDistrict()
+{
+    return district;
+}

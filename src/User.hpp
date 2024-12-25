@@ -2,6 +2,7 @@
 #define USER_HPP
 
 #include "General.hpp"
+#include "District.hpp"
 
 enum State
 {
@@ -15,6 +16,7 @@ private:
     State state;
     string username;
     string password;
+    District* district;
 
 public:
     User(string username_, string password_);
@@ -22,6 +24,8 @@ public:
     bool CheckPassword(string password_);
     void ChangeStateToLoggedOut();
     void ChangeStateToInApp();
+    void SetDistrict(District* dist);
+    District* GetDistrict();
 };
 
 

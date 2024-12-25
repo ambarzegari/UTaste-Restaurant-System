@@ -1,9 +1,5 @@
-POST logout ?
-POST signup ? username "amir" password "ghjkl"
-POST signup ? username "ali" password "olkmn"
-POST login ? username "amir" password "olkmn"
-POST logout ?
-POST signup ? username "ali" password "olkmn"
-POST signup ? username "amir" password "ghjkl"
-POST logout ?
-POST login ? username "amir" password "olkmn"
+POST signup ? username "amir" password "123456"
+GET districts ?
+PUT my_district ? district "Azadi"
+GET districts ? district "Shadman"
+PUT my_district ? district "Shadman"
