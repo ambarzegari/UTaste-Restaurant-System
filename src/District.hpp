@@ -18,6 +18,8 @@ public:
     void AddResturant(string name, string menu, int op, int cl, int num);
     bool CheckNeighbor();
     void PrintDistrictInfo();
+    vector<District*> GetNeighbor();
+    void ShowAllResturantsInDistrict();
 };
 
 #endif

@@ -30,3 +30,8 @@ Resturant::Resturant(string n, string menu, int op, int cl, int num)
     }
     
 }
+
+string Resturant::GetName()
+{
+    return name;
+}

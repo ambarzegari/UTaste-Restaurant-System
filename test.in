@@ -2,4 +2,4 @@ POST signup ? username "amir" password "123456"
 GET districts ?
 PUT my_district ? district "Azadi"
 GET districts ? district "Shadman"
-PUT my_district ? district "Shadman"
+GET resturants ?

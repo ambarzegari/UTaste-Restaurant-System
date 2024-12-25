@@ -345,8 +345,30 @@ void UTaste::ShowDistrict(vector<string> requests)
     }
 }
 
-void ShowResturantsList(vector<string> requests)
+void UTaste::ShowResturantsList(vector<string> requests)
 {
-    District* dist;
-    user->G
+    District* user_dist = user->GetDistrict();
+
+    queue<District*> q;
+    set<District*> visited;
+
+    q.push(user_dist); 
+    visited.insert(user_dist);
+
+    while (!q.empty())
+    {
+        District* curr_dist = q.front();
+        q.pop();
+
+        curr_dist->ShowAllResturantsInDistrict();
+
+        for (auto nei : curr_dist->GetNeighbor())
+        {
+            if (visited.find(nei) == visited.end())
+            {
+                q.push(nei);
+                visited.insert(nei);
+            }
+        }
+    }
 }

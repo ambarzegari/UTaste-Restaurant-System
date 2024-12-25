@@ -43,3 +43,17 @@ void District::PrintDistrictInfo()
         }
     }
 }
+
+vector<District*> District::GetNeighbor()
+{
+    return neighbors;
+}
+
+void District::ShowAllResturantsInDistrict()
+{
+    for (auto rest : resturants)
+    {
+        cout << rest->GetName() << " (" << name << ")" << endl;
+    }
+    
+}
