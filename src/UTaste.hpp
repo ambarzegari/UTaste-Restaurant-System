@@ -3,6 +3,7 @@
 
 #include "User.hpp"
 #include "District.hpp"
+#include "Resturant.hpp"
 
 class UTaste
 {

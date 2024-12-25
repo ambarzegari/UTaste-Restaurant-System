@@ -13,7 +13,48 @@ void UTaste::GetDataFromResturantsFile(char argv[])
 
     while (getline(ResturantsFile, line))
     {
-        /* code */
+        stringstream X(line);
+        string word;
+        string name, dist, menu;
+        int op_t, cl_t, num;
+        District *dist_ptr;
+
+        for (int i = 1; getline(X, word, ','); i++)
+        {
+            if (i == 1)
+            {
+                name = word;
+            }
+            if (i == 2)
+            {
+                dist = word;
+
+                for (auto ptr : districts)
+                {
+                    if (ptr->GetName() == dist)
+                    {
+                        dist_ptr = ptr;
+                    }
+                }
+            }
+            if (i == 3)
+            {
+                menu = word;
+            }
+            if (i == 4)
+            {
+                op_t = stoi(word);
+            }
+            if (i == 5)
+            {
+                cl_t = stoi(word);
+            }
+            if (i == 6)
+            {
+                num = stoi(word);
+            }
+        }
+        dist_ptr->AddResturant(name, menu, op_t, cl_t, num);
     }
 }
 
