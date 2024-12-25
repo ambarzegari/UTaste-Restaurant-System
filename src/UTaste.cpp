@@ -112,6 +112,9 @@ void UTaste::GetDataFromDistrictsFile(char argv[])
             }
         }
     }
+    sort(districts.begin(), districts.end(),
+         [](District *left, District *right)
+         { return (left->GetName() < right->GetName()); });
 }
 
 void UTaste::IoHandler()
@@ -127,12 +130,15 @@ void UTaste::IoHandler()
         {
             if (requests[0] == PUT)
             {
+                PUTHandler(requests);
             }
             else if (requests[0] == GET)
             {
+                GETHandler(requests);
             }
             else if (requests[0] == DELETE)
             {
+                DELETEHandler(requests);
             }
             else if (requests[0] == POST)
             {
@@ -193,11 +199,6 @@ void UTaste::SignUp(vector<string> requests)
         throw runtime_error(NOT_FOUND);
     }
 
-    requests[4].erase(requests[4].begin());
-    requests[4].erase(requests[4].end() - 1);
-    requests[6].erase(requests[6].begin());
-    requests[6].erase(requests[6].end() - 1);
-
     User *new_user = new User(requests[4], requests[6]);
     user = new_user;
     app_users.push_back(new_user);
@@ -229,10 +230,10 @@ void UTaste::LogIn(vector<string> requests)
         throw runtime_error(PERMISSION_DENIED);
     }
 
-    requests[4].erase(requests[4].begin());
-    requests[4].erase(requests[4].end() - 1);
-    requests[6].erase(requests[6].begin());
-    requests[6].erase(requests[6].end() - 1);
+    if (requests[3] != USER_NAME || requests[5] != PASSWORD)
+    {
+        throw runtime_error(NOT_FOUND);
+    }
 
     for (auto user_ : app_users)
     {
@@ -263,4 +264,42 @@ void UTaste::DELETEHandler(vector<string> requests)
 }
 void UTaste::GETHandler(vector<string> requests)
 {
+    if (requests[1] == DISTRICTS)
+    {
+        ShowDistrict(requests);
+    }
+    else
+    {
+        throw runtime_error(NOT_FOUND);
+    }
+}
+
+void UTaste::ShowDistrict(vector<string> requests)
+{
+    if (districts.empty())
+    {
+        throw runtime_error(EMPTY);
+    }
+    if (requests.size() == 3)
+    {
+        for (auto dist : districts)
+        {
+            if (!dist->CheckNeighbor())
+            {
+                dist->PrintDistrictInfo();
+            }
+        }
+    }
+    else
+    {
+        for (auto dist : districts)
+        {
+            if (dist->GetName() == requests[4])
+            {
+                dist->PrintDistrictInfo();
+                return;
+            }
+        }
+        throw runtime_error(NOT_FOUND);
+    }
 }

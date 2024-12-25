@@ -16,6 +16,8 @@ public:
     string GetName();
     void AddNeighbors(District *nei);
     void AddResturant(string name, string menu, int op, int cl, int num);
+    bool CheckNeighbor();
+    void PrintDistrictInfo();
 };
 
 #endif

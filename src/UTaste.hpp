@@ -24,8 +24,11 @@ public:
     void LogIn(vector<string> requests);
 
     void PUTHandler(vector<string> requests);
+
     void DELETEHandler(vector<string> requests);
+    
     void GETHandler(vector<string> requests);
+    void ShowDistrict(vector<string> requests);
 };
 
 #endif

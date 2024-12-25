@@ -6,6 +6,7 @@
 #include <vector>
 #include <sstream>
 #include <fstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -25,6 +26,9 @@ const string LOG_IN = "login";
 const string LOG_OUT = "logout";
 const string USER_NAME = "username";
 const string PASSWORD = "password";
+
+const string DISTRICTS = "districts";
+const string DISTRICT = "district";
 
 vector<string> StringSplitter(string line);
 
