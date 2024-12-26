@@ -88,7 +88,8 @@ void Resturant::AddReserve(Resturant *res, User *us, int st, int et, int tid, ve
         {
             if ((res->GetStartTime() <= st && st < res->GetEndTime()) ||
                 (res->GetStartTime() < et && et <= res->GetEndTime()) ||
-                ((res->GetEndTime() <= et) && (res->GetStartTime() >= st)))
+                ((res->GetEndTime() <= et) && (res->GetStartTime() >= st)) || 
+                ((st < opening_time) && (et > closing_time)))
             {
                 throw runtime_error(PERMISSION_DENIED);
             }
@@ -120,6 +121,12 @@ void Resturant::ReserveHandler(vector<string> requests, User *user, Resturant *r
             }
         }
     }
+
+    if (stoi(requests[6]) > number_of_tables)
+    {
+        throw runtime_error(NOT_FOUND);
+    }
+    
 
     rest->AddReserve(rest, user, stoi(requests[8]), stoi(requests[10]), stoi(requests[6]), f);
 }
