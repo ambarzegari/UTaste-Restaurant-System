@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <queue>
 #include <set>
+#include <map>
 
 using namespace std;
 
@@ -38,6 +39,7 @@ const string FOOD_NAME = "food_name";
 
 const string RESERVE = "reserve";
 const string RESTAURANT_NAME = "restaurant_name";
+const string RESTAURANT_DETAIL = "restaurant_detail";
 const string TABLE_ID = "table_id";
 const string START_TIME = "start_time";
 const string END_TIME = "end_time";

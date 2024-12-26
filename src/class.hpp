@@ -2,19 +2,12 @@
 #define DISTRICT_HPP
 
 #include "General.hpp"
+#include "MenuItem.hpp"
 
 class User;
 class Reserve;
-
-class MenuItem
-{
-private:
-    string name;
-    int price;
-public:
-    MenuItem(string n, int p);
-    string GetName();
-};
+class Resturant;
+class District;
 
 class Resturant
 {
@@ -33,7 +26,12 @@ public:
     bool HaveFoodInMenu(string fn);
     void AddReserve(Resturant* res, User* us, int st, int et, int tid, vector<MenuItem*> f);
     void ReserveHandler(vector<string> requests, User* user, Resturant* res);
+    void DeleteReserve(int res_id, User* user);
+    void ShowReserve(User* user, int res_id);
+    void SortMenuItemVector();
+    void ShowRestaurantInfo(District* dist);
 };
+
 
 class District
 {
@@ -54,6 +52,9 @@ public:
     void ShowSomeResturantsInDistrict(string fn);
     void SortResturantsVector();
     Resturant* FindRestaurant(string name);
+    void ShowAllReserve(User* user);
+    void ShowOneReserve(User* user, int res_id);
+    vector<Resturant*> GetRestaurants() { return resturants; };
 
 };
 
@@ -98,6 +99,8 @@ public:
     int GetEndTime() { return end_time; };
     int GetTableID() { return table_id; };
     int GetReserveID() { return reserve_id; };
+    User* GetUser() { return user; };
+    void Show();
 };
 
 #endif

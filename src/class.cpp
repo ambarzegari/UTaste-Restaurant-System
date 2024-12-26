@@ -1,16 +1,5 @@
 #include "class.hpp"
 
-MenuItem::MenuItem(string n, int p)
-{
-    name = n;
-    price = p;
-}
-
-string MenuItem::GetName()
-{
-    return name;
-}
-
 Reserve::Reserve(Resturant *res, User *us, int st, int et, int tid, int reserve, vector<MenuItem *> f)
 {
     restaurant = res;
@@ -22,6 +11,24 @@ Reserve::Reserve(Resturant *res, User *us, int st, int et, int tid, int reserve,
     foods = f;
 
     cout << "Reserve ID: " << reserve_id << endl;
+}
+void Reserve::Show()
+{
+    cout << reserve_id << ": " << restaurant->GetName() << " " << table_id << " " << start_time << "-" << end_time << " ";
+
+    map<MenuItem *, int> food_rep;
+
+    for (auto f : foods)
+    {
+        food_rep[f]++;
+    }
+
+    for (auto fr : food_rep)
+    {
+        cout << fr.first->GetName() << "(" << fr.second << ")" << " ";
+    }
+
+    cout << endl;
 }
 
 Resturant::Resturant(string n, string menu, int op, int cl, int num)
@@ -79,9 +86,9 @@ void Resturant::AddReserve(Resturant *res, User *us, int st, int et, int tid, ve
     {
         if (res->GetTableID() == tid)
         {
-            if (res->GetStartTime() <= st < res->GetEndTime() || 
-            res->GetStartTime() < et <= res->GetEndTime() || 
-            ((res->GetEndTime() <= et) && (res->GetStartTime() >= st)))
+            if (res->GetStartTime() <= st < res->GetEndTime() ||
+                res->GetStartTime() < et <= res->GetEndTime() ||
+                ((res->GetEndTime() <= et) && (res->GetStartTime() >= st)))
             {
                 throw runtime_error(PERMISSION_DENIED);
             }
@@ -91,14 +98,15 @@ void Resturant::AddReserve(Resturant *res, User *us, int st, int et, int tid, ve
     {
         throw runtime_error(PERMISSION_DENIED);
     }
-    
+
     Reserve_num++;
     reserve.push_back(new Reserve(res, us, st, et, tid, Reserve_num, f));
 }
 
 void Resturant::ReserveHandler(vector<string> requests, User *user, Resturant *rest)
 {
-    vector<MenuItem *> f;
+    vector<MenuItem *> f = {};
+
     stringstream X(requests[12]);
     string food_name;
 
@@ -114,6 +122,90 @@ void Resturant::ReserveHandler(vector<string> requests, User *user, Resturant *r
     }
 
     rest->AddReserve(rest, user, stoi(requests[8]), stoi(requests[10]), stoi(requests[6]), f);
+}
+
+void Resturant::DeleteReserve(int res_id, User *user)
+{
+    for (auto res : reserve)
+    {
+        if (res->GetReserveID() == res_id)
+        {
+            if (res->GetUser() != user)
+            {
+                throw runtime_error(PERMISSION_DENIED);
+            }
+            reserve.erase(find(reserve.begin(), reserve.end(), res));
+            delete res;
+            cout << OK << endl;
+            return;
+        }
+    }
+    throw runtime_error(NOT_FOUND);
+}
+
+void Resturant::ShowReserve(User *user, int res_id = 0)
+{
+    for (auto res : reserve)
+    {
+        if (res->GetUser() == user)
+        {
+            if (res_id == 0)
+            {
+                res->Show();
+            }
+            else
+            {
+                if (res->GetReserveID() == res_id)
+                {
+                    res->Show();
+                }
+            }
+        }
+    }
+}
+
+void Resturant::SortMenuItemVector()
+{
+    sort(menu_item.begin(), menu_item.end(),
+         [](MenuItem *left, MenuItem *right)
+         { return left->GetName() < right->GetName(); });
+}
+
+void Resturant::ShowRestaurantInfo(District *dist)
+{
+    cout << "Name: " << name << "\n"
+         << "District: " << dist->GetName() << "\n"
+         << "Menu: ";
+    for (auto item : menu_item)
+    {
+        if (item != *menu_item.begin())
+        {
+            cout << ", ";
+        }
+        cout << item->GetName() << "(" << item->Getprice() << ")";
+    }
+
+    cout << endl;
+
+    for (int i = 1; i <= number_of_tables; i++)
+    {
+        cout << i << ": ";
+        for (auto res : reserve)
+        {
+            int j = 0;
+            if (res->GetTableID() == i)
+            {
+                if (j != 0)
+                {
+                    cout << ", ";
+                }
+                cout << "(" << res->GetStartTime() << "-" << res->GetEndTime() << ")";
+            }
+            j++;
+        }
+        cout << endl;
+    }
+
 }
 
 District::District(string n)
@@ -201,6 +293,20 @@ Resturant *District::FindRestaurant(string name)
         }
     }
     return nullptr;
+}
+void District::ShowAllReserve(User *user)
+{
+    for (auto rest : resturants)
+    {
+        rest->ShowReserve(user);
+    }
+}
+void District::ShowOneReserve(User *user, int res_id)
+{
+    for (auto rest : resturants)
+    {
+        rest->ShowReserve(user, res_id);
+    }
 }
 
 User::User(string username_, string password_)

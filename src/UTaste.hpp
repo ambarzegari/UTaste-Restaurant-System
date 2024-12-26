@@ -31,6 +31,8 @@ public:
     void GETHandler(vector<string> requests);
     void ShowDistrict(vector<string> requests);
     void ShowResturantsList(vector<string> requests);
+    void ShowReserve(vector<string> requests);
+    void ShowRestaurantInfo(vector<string> requests);
 };
 
 #endif

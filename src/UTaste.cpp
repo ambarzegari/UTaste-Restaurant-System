@@ -60,6 +60,11 @@ void UTaste::GetDataFromResturantsFile(char argv[])
     for (auto dist : districts)
     {
         dist->SortResturantsVector();
+        for (auto res_ : dist->GetRestaurants())
+        {
+            res_->SortMenuItemVector();
+        }
+        
     }
 
     ResturantsFile.close();
@@ -321,7 +326,7 @@ void UTaste::SetUserDistrict(vector<string> requests)
 
 void UTaste::DELETEHandler(vector<string> requests)
 {
-    if (requests[1] == DELETE)
+    if (requests[1] == RESERVE)
     {
         DeleteReserve(requests);
     }
@@ -329,8 +334,24 @@ void UTaste::DELETEHandler(vector<string> requests)
 
 void UTaste::DeleteReserve(vector<string> requests)
 {
-    
+    Resturant *rest = nullptr;
+
+    for (auto dist : districts)
+    {
+        if (dist->FindRestaurant(requests[4]) != nullptr)
+        {
+            rest = dist->FindRestaurant(requests[4]);
+        }
+    }
+
+    if (rest == nullptr)
+    {
+        throw runtime_error(NOT_FOUND);
+    }
+
+    rest->DeleteReserve(stoi(requests[6]), user);
 }
+
 void UTaste::GETHandler(vector<string> requests)
 {
     if (requests[1] == DISTRICTS)
@@ -340,6 +361,14 @@ void UTaste::GETHandler(vector<string> requests)
     else if (requests[1] == RESTAURANTS)
     {
         ShowResturantsList(requests);
+    }
+    else if (requests[1] == RESERVE)
+    {
+        ShowReserve(requests);
+    }
+    else if (requests[1] == RESTAURANT_DETAIL)
+    {
+        ShowRestaurantInfo(requests);
     }
     else
     {
@@ -424,4 +453,54 @@ void UTaste::ShowResturantsList(vector<string> requests)
             }
         }
     }
+}
+
+void UTaste::ShowReserve(vector<string> requests)
+{
+    if (requests.size() == 3)
+    {
+        for (auto dist : districts)
+        {
+            dist->ShowAllReserve(user);
+        }
+    }
+    if (requests.size() == 5)
+    {
+        for (auto dist : districts)
+        {
+            if (dist->FindRestaurant(requests[4]) != nullptr)
+            {
+                dist->ShowAllReserve(user);
+            }
+        }
+    }
+    if (requests.size() == 7)
+    {
+        for (auto dist : districts)
+        {
+            if (dist->FindRestaurant(requests[4]) != nullptr)
+            {
+                dist->ShowOneReserve(user, stoi(requests[6]));
+            }
+        }
+    }
+}
+
+void UTaste::ShowRestaurantInfo(vector<string> requests)
+{
+    District* curr;
+    Resturant* curr_rest = nullptr;
+    for (auto dist : districts)
+    {
+        if (dist->FindRestaurant(requests[4]) != nullptr)
+        {
+            curr_rest = dist->FindRestaurant(requests[4]);
+            curr = dist;
+        }
+    }
+    if (curr_rest == nullptr)
+    {
+        throw runtime_error(NOT_FOUND);
+    }
+    curr_rest->ShowRestaurantInfo(curr);
 }
