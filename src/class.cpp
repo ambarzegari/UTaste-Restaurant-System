@@ -86,8 +86,8 @@ void Resturant::AddReserve(Resturant *res, User *us, int st, int et, int tid, ve
     {
         if (res->GetTableID() == tid)
         {
-            if (res->GetStartTime() <= st < res->GetEndTime() ||
-                res->GetStartTime() < et <= res->GetEndTime() ||
+            if ((res->GetStartTime() <= st && st < res->GetEndTime()) ||
+                (res->GetStartTime() < et && et <= res->GetEndTime()) ||
                 ((res->GetEndTime() <= et) && (res->GetStartTime() >= st)))
             {
                 throw runtime_error(PERMISSION_DENIED);
@@ -175,6 +175,7 @@ void Resturant::ShowRestaurantInfo(District *dist)
 {
     cout << "Name: " << name << "\n"
          << "District: " << dist->GetName() << "\n"
+         << "Time: " << opening_time << "-" << closing_time << "\n"
          << "Menu: ";
     for (auto item : menu_item)
     {
@@ -190,9 +191,10 @@ void Resturant::ShowRestaurantInfo(District *dist)
     for (int i = 1; i <= number_of_tables; i++)
     {
         cout << i << ": ";
+        int j = 0;
         for (auto res : reserve)
         {
-            int j = 0;
+
             if (res->GetTableID() == i)
             {
                 if (j != 0)
@@ -200,12 +202,11 @@ void Resturant::ShowRestaurantInfo(District *dist)
                     cout << ", ";
                 }
                 cout << "(" << res->GetStartTime() << "-" << res->GetEndTime() << ")";
+                j++;
             }
-            j++;
         }
         cout << endl;
     }
-
 }
 
 District::District(string n)
