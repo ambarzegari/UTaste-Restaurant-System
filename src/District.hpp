@@ -20,6 +20,9 @@ public:
     void PrintDistrictInfo();
     vector<District*> GetNeighbor();
     void ShowAllResturantsInDistrict();
+    void ShowSomeResturantsInDistrict(string fn);
+    void SortResturantsVector();
+
 };
 
 #endif

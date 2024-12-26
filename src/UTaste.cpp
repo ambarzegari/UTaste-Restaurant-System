@@ -55,7 +55,15 @@ void UTaste::GetDataFromResturantsFile(char argv[])
             }
         }
         dist_ptr->AddResturant(name, menu, op_t, cl_t, num);
+
     }
+
+    for (auto dist : districts)
+    {
+        dist->SortResturantsVector();
+    }
+    
+
     ResturantsFile.close();
 }
 
@@ -303,7 +311,6 @@ void UTaste::GETHandler(vector<string> requests)
     {
         ShowResturantsList(requests);
     }
-
     else
     {
         throw runtime_error(NOT_FOUND);
@@ -347,20 +354,36 @@ void UTaste::ShowDistrict(vector<string> requests)
 
 void UTaste::ShowResturantsList(vector<string> requests)
 {
-    District* user_dist = user->GetDistrict();
+    if (districts.empty())
+    {
+        throw runtime_error(EMPTY);
+    }
+    if (user->GetDistrict() == nullptr)
+    {
+        throw runtime_error(NOT_FOUND);
+    }
+    
+    District *user_dist = user->GetDistrict();
 
-    queue<District*> q;
-    set<District*> visited;
+    queue<District *> q;
+    set<District *> visited;
 
-    q.push(user_dist); 
+    q.push(user_dist);
     visited.insert(user_dist);
 
     while (!q.empty())
     {
-        District* curr_dist = q.front();
+        District *curr_dist = q.front();
         q.pop();
 
-        curr_dist->ShowAllResturantsInDistrict();
+        if (requests.size() == 3)
+        {
+            curr_dist->ShowAllResturantsInDistrict();
+        }
+        else
+        {
+            curr_dist->ShowSomeResturantsInDistrict(requests[4]);
+        }
 
         for (auto nei : curr_dist->GetNeighbor())
         {

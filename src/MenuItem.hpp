@@ -10,6 +10,7 @@ private:
     int price;
 public:
     MenuItem(string n, int p);
+    string GetName();
 };
 
 

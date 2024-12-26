@@ -1,5 +1,5 @@
 district,neighbors
 Azadi,Behboodi;SatarKhan;Shadman
-Saadat Abad,Punak;Shahrak Gharb;Tajrish
-Enghelab,Jomhouri;Karegar
-Shadman,Karegar;Chitgar
+Behboodi,Azadi;SatarKhan;Shadman
+SatarKhan,Shadman;Behboodi;Azadi
+Shadman,SatarKhan;Behboodi;Azadi

@@ -44,7 +44,7 @@ void District::PrintDistrictInfo()
     }
 }
 
-vector<District*> District::GetNeighbor()
+vector<District *> District::GetNeighbor()
 {
     return neighbors;
 }
@@ -55,5 +55,22 @@ void District::ShowAllResturantsInDistrict()
     {
         cout << rest->GetName() << " (" << name << ")" << endl;
     }
-    
+}
+
+void District::ShowSomeResturantsInDistrict(string fn)
+{
+    for (auto rest : resturants)
+    {
+        if (rest->HaveFoodInMenu(fn))
+        {
+            cout << rest->GetName() << " (" << name << ")" << endl;
+        }
+    }
+}
+
+void District::SortResturantsVector()
+{
+    sort(resturants.begin(), resturants.end(),
+         [](Resturant *left, Resturant *right)
+         { return left->GetName() < right->GetName(); });
 }

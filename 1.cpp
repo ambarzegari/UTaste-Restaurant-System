@@ -77,3 +77,14 @@ int main() {
 
     return 0;
 }
+
+
+
+
+
+void District::SortResturantsVector()
+{
+    sort(resturants.begin(), resturants.end(),
+         [](Resturant *left, Resturant *right)
+         { return left->GetName() < right->GetName(); });
+}

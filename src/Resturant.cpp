@@ -15,23 +15,34 @@ Resturant::Resturant(string n, string menu, int op, int cl, int num)
         stringstream Y(food_and_price);
         string word, food;
         int price;
-        for (int i = 1;getline(Y, word, ':'); i++)
+        for (int i = 1; getline(Y, word, ':'); i++)
         {
-            if (i==1)
+            if (i == 1)
             {
                 food = word;
             }
-            if (i==2)
+            if (i == 2)
             {
                 price = stoi(word);
             }
         }
         menu_item.push_back(new MenuItem(food, price));
     }
-    
 }
 
 string Resturant::GetName()
 {
     return name;
+}
+
+bool Resturant::HaveFoodInMenu(string fn)
+{
+    for (auto mi : menu_item)
+    {
+        if (mi->GetName() == fn)
+        {
+            return true;
+        }
+    }
+    return false;
 }

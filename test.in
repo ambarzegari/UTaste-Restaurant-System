@@ -3,3 +3,4 @@ GET districts ?
 PUT my_district ? district "Azadi"
 GET districts ? district "Shadman"
 GET resturants ?
+GET resturants ? food_name "sandwich"

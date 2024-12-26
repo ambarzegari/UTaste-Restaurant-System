@@ -16,6 +16,7 @@ private:
 public:
     Resturant(string n, string menu, int op, int cl, int num);
     string GetName();
+    bool HaveFoodInMenu(string fn);
 };
 
 #endif

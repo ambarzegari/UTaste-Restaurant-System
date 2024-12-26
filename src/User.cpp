@@ -5,6 +5,8 @@ User::User(string username_, string password_)
     username = username_;
     password = password_;
 
+    district = nullptr;
+
     state = IN_APP;
 }
 
