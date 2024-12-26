@@ -2,5 +2,8 @@ POST signup ? username "amir" password "123456"
 GET districts ?
 PUT my_district ? district "Azadi"
 GET districts ? district "Shadman"
-GET resturants ?
-GET resturants ? food_name "sandwich"
+GET restaurants ?
+GET restaurants ? food_name "sandwich"
+POST reserve ? restaurant_name "sahel" table_id "5" start_time "10" end_time "12" foods "berger"
+POST reserve ? restaurant_name "sahel" table_id "5" start_time "16" end_time "17" foods "berger"
+POST reserve ? restaurant_name "sahel" table_id "7" start_time "10" end_time "11" foods "berger"

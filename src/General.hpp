@@ -33,8 +33,17 @@ const string DISTRICTS = "districts";
 const string DISTRICT = "district";
 const string MY_DISTRICT = "my_district";
 
-const string RESTURANTS = "resturants";
+const string RESTAURANTS = "restaurants";
 const string FOOD_NAME = "food_name";
+
+const string RESERVE = "reserve";
+const string RESTAURANT_NAME = "restaurant_name";
+const string TABLE_ID = "table_id";
+const string START_TIME = "start_time";
+const string END_TIME = "end_time";
+const string FOODS = "foods";
+
+
 
 vector<string> StringSplitter(string line);
 

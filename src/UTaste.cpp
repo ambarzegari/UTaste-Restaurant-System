@@ -55,14 +55,12 @@ void UTaste::GetDataFromResturantsFile(char argv[])
             }
         }
         dist_ptr->AddResturant(name, menu, op_t, cl_t, num);
-
     }
 
     for (auto dist : districts)
     {
         dist->SortResturantsVector();
     }
-    
 
     ResturantsFile.close();
 }
@@ -184,6 +182,10 @@ void UTaste::POSTHandler(vector<string> requests)
     {
         LogOut(requests);
     }
+    else if (requests[1] == RESERVE)
+    {
+        ReserveHandler(requests);
+    }
     else
     {
         throw runtime_error(NOT_FOUND);
@@ -267,6 +269,25 @@ void UTaste::LogIn(vector<string> requests)
     throw runtime_error(NOT_FOUND);
 }
 
+void UTaste::ReserveHandler(vector<string> requests)
+{
+    Resturant *rest = nullptr;
+
+    for (auto dist : districts)
+    {
+        if (dist->FindRestaurant(requests[4]) != nullptr)
+        {
+            rest = dist->FindRestaurant(requests[4]);
+        }
+    }
+    if (rest == nullptr)
+    {
+        throw(NOT_FOUND);
+    }
+
+    rest->ReserveHandler(requests, user, rest);
+}
+
 void UTaste::PUTHandler(vector<string> requests)
 {
     if (requests[1] == MY_DISTRICT)
@@ -300,6 +321,15 @@ void UTaste::SetUserDistrict(vector<string> requests)
 
 void UTaste::DELETEHandler(vector<string> requests)
 {
+    if (requests[1] == DELETE)
+    {
+        DeleteReserve(requests);
+    }
+}
+
+void UTaste::DeleteReserve(vector<string> requests)
+{
+    
 }
 void UTaste::GETHandler(vector<string> requests)
 {
@@ -307,7 +337,7 @@ void UTaste::GETHandler(vector<string> requests)
     {
         ShowDistrict(requests);
     }
-    else if (requests[1] == RESTURANTS)
+    else if (requests[1] == RESTAURANTS)
     {
         ShowResturantsList(requests);
     }
@@ -362,7 +392,7 @@ void UTaste::ShowResturantsList(vector<string> requests)
     {
         throw runtime_error(NOT_FOUND);
     }
-    
+
     District *user_dist = user->GetDistrict();
 
     queue<District *> q;

@@ -1,9 +1,7 @@
 #ifndef Utaste_HPP
 #define Utaste_HPP
 
-#include "User.hpp"
-#include "District.hpp"
-#include "Resturant.hpp"
+#include "class.hpp"
 
 class UTaste
 {
@@ -22,11 +20,13 @@ public:
     void SignUp(vector<string> requests);
     void LogOut(vector<string> requests);
     void LogIn(vector<string> requests);
+    void ReserveHandler(vector<string> requests);
 
     void PUTHandler(vector<string> requests);
     void SetUserDistrict(vector<string> requests);
 
     void DELETEHandler(vector<string> requests);
+    void DeleteReserve(vector<string> requests);
 
     void GETHandler(vector<string> requests);
     void ShowDistrict(vector<string> requests);
