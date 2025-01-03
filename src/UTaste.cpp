@@ -64,7 +64,6 @@ void UTaste::GetDataFromResturantsFile(char argv[])
         {
             res_->SortMenuItemVector();
         }
-        
     }
 
     ResturantsFile.close();
@@ -131,6 +130,14 @@ void UTaste::GetDataFromDistrictsFile(char argv[])
     DistrictFile.close();
 }
 
+void UTaste::CheckUserLogin()
+{
+    if (user == nullptr)
+    {
+        throw runtime_error(PERMISSION_DENIED);
+    }
+}
+
 void UTaste::IoHandler()
 {
     string line;
@@ -144,14 +151,17 @@ void UTaste::IoHandler()
         {
             if (requests[0] == PUT)
             {
+                CheckUserLogin();
                 PUTHandler(requests);
             }
             else if (requests[0] == GET)
             {
+                CheckUserLogin();
                 GETHandler(requests);
             }
             else if (requests[0] == DELETE)
             {
+                CheckUserLogin();
                 DELETEHandler(requests);
             }
             else if (requests[0] == POST)
@@ -189,6 +199,7 @@ void UTaste::POSTHandler(vector<string> requests)
     }
     else if (requests[1] == RESERVE)
     {
+        CheckUserLogin();
         ReserveHandler(requests);
     }
     else
@@ -488,8 +499,8 @@ void UTaste::ShowReserve(vector<string> requests)
 
 void UTaste::ShowRestaurantInfo(vector<string> requests)
 {
-    District* curr;
-    Resturant* curr_rest = nullptr;
+    District *curr;
+    Resturant *curr_rest = nullptr;
     for (auto dist : districts)
     {
         if (dist->FindRestaurant(requests[4]) != nullptr)

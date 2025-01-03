@@ -1,0 +1,6 @@
+name,district,foods:prices,opening_time,closing_time,number_of_tables
+sib,Azadi,pitza:220;berger:190;hotdog:185,9,23,45
+aman,Azadi,pitza:202;berger:190;hotdog:185,8,24,42
+maman joon,Behboodi,pitza:290;berger:180;sandwich:95;food with space in name:20,11,22,20
+sahel,Shadman,sandwich:98;berger:300,10,23,12
+amooo hasan,SatarKhan,pitza:98;berger:400,12,23,7

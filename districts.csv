@@ -1,0 +1,5 @@
+district,neighbors
+Azadi,Behboodi;SatarKhan;Shadman
+Behboodi,Azadi;SatarKhan;Shadman
+SatarKhan,Shadman;Behboodi;Azadi
+Shadman,SatarKhan;Behboodi;Azadi
