@@ -173,6 +173,10 @@ void UTaste::IoHandler()
                 throw runtime_error(BAD_REQUEST);
             }
         }
+        catch (const std::invalid_argument &e)
+        {
+            cout << BAD_REQUEST << endl;
+        }
         catch (const exception &e)
         {
             cout << e.what() << endl;
@@ -201,6 +205,10 @@ void UTaste::POSTHandler(vector<string> requests)
     {
         CheckUserLogin();
         ReserveHandler(requests);
+    }
+    else if (requests[1] == INCREASE_BUDGET)
+    {
+        IncreaseBudget(requests);
     }
     else
     {
@@ -302,6 +310,24 @@ void UTaste::ReserveHandler(vector<string> requests)
     }
 
     rest->ReserveHandler(requests, user, rest);
+}
+
+void UTaste::IncreaseBudget(vector<string> requests)
+{
+    if (requests[3] != AMOUNT)
+    {
+        throw runtime_error(NOT_FOUND);
+    }
+
+    int b = stoi(requests[4]);
+
+    if (b < 0)
+    {
+        throw runtime_error(BAD_REQUEST);
+    }
+    
+
+    user->SetBudget(b);
 }
 
 void UTaste::PUTHandler(vector<string> requests)

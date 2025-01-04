@@ -88,7 +88,7 @@ void Resturant::AddReserve(Resturant *res, User *us, int st, int et, int tid, ve
         {
             if ((res->GetStartTime() <= st && st < res->GetEndTime()) ||
                 (res->GetStartTime() < et && et <= res->GetEndTime()) ||
-                ((res->GetEndTime() <= et) && (res->GetStartTime() >= st)) || 
+                ((res->GetEndTime() <= et) && (res->GetStartTime() >= st)) ||
                 ((st < opening_time) && (et > closing_time)))
             {
                 throw runtime_error(PERMISSION_DENIED);
@@ -126,7 +126,6 @@ void Resturant::ReserveHandler(vector<string> requests, User *user, Resturant *r
     {
         throw runtime_error(NOT_FOUND);
     }
-    
 
     rest->AddReserve(rest, user, stoi(requests[8]), stoi(requests[10]), stoi(requests[6]), f);
 }
@@ -325,6 +324,8 @@ User::User(string username_, string password_)
     district = nullptr;
 
     state = IN_APP;
+
+    budget = 0;
 }
 
 bool User::CheckUsername(string username_)
@@ -355,4 +356,10 @@ void User::SetDistrict(District *dist)
 District *User::GetDistrict()
 {
     return district;
+}
+
+void User::SetBudget(int b)
+{
+    budget = budget + b;
+    cout << OK << endl;
 }

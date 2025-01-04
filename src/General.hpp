@@ -45,6 +45,9 @@ const string START_TIME = "start_time";
 const string END_TIME = "end_time";
 const string FOODS = "foods";
 
+const string INCREASE_BUDGET = "increase_budget";
+const string AMOUNT = "amount";
+
 
 
 vector<string> StringSplitter(string line);

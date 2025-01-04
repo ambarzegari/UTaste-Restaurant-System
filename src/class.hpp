@@ -70,6 +70,7 @@ private:
     State state;
     string username;
     string password;
+    int budget;
     District* district;
 
 public:
@@ -80,6 +81,7 @@ public:
     void ChangeStateToInApp();
     void SetDistrict(District* dist);
     District* GetDistrict();
+    void SetBudget(int b);
 };
 
 class Reserve

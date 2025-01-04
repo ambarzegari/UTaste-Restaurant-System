@@ -22,6 +22,7 @@ public:
     void LogOut(vector<string> requests);
     void LogIn(vector<string> requests);
     void ReserveHandler(vector<string> requests);
+    void IncreaseBudget(vector<string> requests);
 
     void PUTHandler(vector<string> requests);
     void SetUserDistrict(vector<string> requests);
