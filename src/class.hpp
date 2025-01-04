@@ -82,6 +82,7 @@ public:
     void SetDistrict(District* dist);
     District* GetDistrict();
     void SetBudget(int b);
+    int GetBudget();
 };
 
 class Reserve

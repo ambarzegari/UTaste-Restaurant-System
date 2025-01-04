@@ -363,3 +363,8 @@ void User::SetBudget(int b)
     budget = budget + b;
     cout << OK << endl;
 }
+
+int User::GetBudget()
+{
+    return budget;
+}

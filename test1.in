@@ -10,3 +10,6 @@ POST increase_budget ? amount "1000"
 POST increase_budget ? amount "df"
 POST increase_budget ? amount "5000"
 POST increase_budget ? amount "-850"
+GET show_budget ?
+POST increase_budget ? amount "20"
+GET show_budget ?

@@ -208,6 +208,7 @@ void UTaste::POSTHandler(vector<string> requests)
     }
     else if (requests[1] == INCREASE_BUDGET)
     {
+        CheckUserLogin();
         IncreaseBudget(requests);
     }
     else
@@ -325,7 +326,6 @@ void UTaste::IncreaseBudget(vector<string> requests)
     {
         throw runtime_error(BAD_REQUEST);
     }
-    
 
     user->SetBudget(b);
 }
@@ -406,6 +406,10 @@ void UTaste::GETHandler(vector<string> requests)
     else if (requests[1] == RESTAURANT_DETAIL)
     {
         ShowRestaurantInfo(requests);
+    }
+    else if (requests[1] == SHOW_BUDGET)
+    {
+        ShowBudget(requests);
     }
     else
     {
@@ -540,4 +544,9 @@ void UTaste::ShowRestaurantInfo(vector<string> requests)
         throw runtime_error(NOT_FOUND);
     }
     curr_rest->ShowRestaurantInfo(curr);
+}
+
+void UTaste::ShowBudget(vector<string> requests)
+{
+    cout << user->GetBudget() << endl;
 }

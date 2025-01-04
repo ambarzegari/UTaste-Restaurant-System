@@ -35,6 +35,7 @@ public:
     void ShowResturantsList(vector<string> requests);
     void ShowReserve(vector<string> requests);
     void ShowRestaurantInfo(vector<string> requests);
+    void ShowBudget(vector<string> requests);
 };
 
 #endif

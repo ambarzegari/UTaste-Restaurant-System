@@ -47,6 +47,7 @@ const string FOODS = "foods";
 
 const string INCREASE_BUDGET = "increase_budget";
 const string AMOUNT = "amount";
+const string SHOW_BUDGET = "show_budget";
 
 
 
