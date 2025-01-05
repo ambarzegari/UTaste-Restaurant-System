@@ -31,6 +31,27 @@ void Reserve::Show()
     cout << endl;
 }
 
+MenuItem::MenuItem(string n, int p)
+{
+    name = n;
+    price = p;
+}
+
+string MenuItem::GetName()
+{
+    return name;
+}
+
+int MenuItem::Getprice()
+{
+    return price;
+}
+
+void MenuItem::AddFoodDiscount(string t_, int dis_)
+{
+    food_discount = new FoodDiscount(t_, dis_);
+}
+
 Resturant::Resturant(string n, string menu, int op, int cl, int num)
 {
     name = n;
@@ -38,6 +59,9 @@ Resturant::Resturant(string n, string menu, int op, int cl, int num)
     closing_time = cl;
     number_of_tables = num;
     Reserve_num = 0;
+
+    first_order_discount = nullptr;
+    total_price_discount = nullptr;
 
     stringstream X(menu);
     string food_and_price;
@@ -215,6 +239,27 @@ void Resturant::ShowRestaurantInfo(District *dist)
     }
 }
 
+void Resturant::AddTotalDiscount(string t_, int min_, int dis_)
+{
+    total_price_discount = new TotalPriceDiscount(t_, min_, dis_);
+}
+
+void Resturant::AddFirstOrderDiscount(string t_, int dis_)
+{
+    first_order_discount = new FirstOrderDiscount(t_, dis_);
+}
+
+MenuItem *Resturant::FindMenuItem(string n_)
+{
+    for (auto item : menu_item)
+    {
+        if (item->GetName() == n_)
+        {
+            return item;
+        }
+    }
+}
+
 District::District(string n)
 {
     name = n;
@@ -367,4 +412,23 @@ void User::SetBudget(int b)
 int User::GetBudget()
 {
     return budget;
+}
+
+Discount::Discount(string t_, int dis_)
+{
+    type = t_;
+    discount = dis_;
+}
+
+TotalPriceDiscount::TotalPriceDiscount(string t_, int dis_, int min_) : Discount(t_, dis_)
+{
+    minimum = min_;
+}
+
+FirstOrderDiscount::FirstOrderDiscount(string t_, int dis_) : Discount(t_, dis_)
+{
+}
+
+FoodDiscount::FoodDiscount(string t_, int dis_) : Discount(t_, dis_)
+{
 }

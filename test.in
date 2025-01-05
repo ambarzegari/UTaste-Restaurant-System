@@ -4,7 +4,6 @@ PUT my_district ? district "Azadi"
 GET districts ? district "Shadman"
 GET restaurants ?
 GET restaurants ? food_name "sandwich"
-POST logout ?
 POST reserve ? restaurant_name "sahel" table_id "5" start_time "10" end_time "12" foods "berger"
 POST reserve ? restaurant_name "amooo hasan" table_id "2" start_time "14" end_time "15" foods "berger"
 POST reserve ? restaurant_name "amooo hasan" table_id "3" start_time "15" end_time "18" foods "berger,pitza,berger,pitza"

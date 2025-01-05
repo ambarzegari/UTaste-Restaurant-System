@@ -130,6 +130,146 @@ void UTaste::GetDataFromDistrictsFile(char argv[])
     DistrictFile.close();
 }
 
+void UTaste::GetDataFromDiscountsFile(char argv[])
+{
+    ifstream DiscountFile(argv);
+    string line, word;
+    Resturant *restuarant;
+    District *dist_ptr;
+    MenuItem *menu_item;
+    getline(DiscountFile, line);
+    while (getline(DiscountFile, line))
+    {
+        stringstream X(line);
+        for (int i = 1; getline(X, word, ','); i++)
+        {
+            if (i == 1)
+            {
+                for (auto dis : districts)
+                {
+                    if (dis->FindRestaurant(word) != nullptr)
+                    {
+                        restuarant = dis->FindRestaurant(word);
+                    }
+                }
+            }
+            if (i == 2)
+            {
+                stringstream Y(word);
+                string kalameh;
+                string type;
+                int discount;
+                int minimum;
+                bool is_discount = true;
+
+                for (int j = 1; getline(Y, kalameh, ';'); j++)
+                {
+                    if (kalameh == "none")
+                    {
+                        is_discount = false;
+                        break;
+                    }
+
+                    if (j == 1)
+                    {
+                        type = kalameh;
+                    }
+                    if (j == 2)
+                    {
+                        minimum = stoi(kalameh);
+                    }
+                    if (j == 3)
+                    {
+                        discount = stoi(kalameh);
+                    }
+                }
+                if (is_discount)
+                {
+                    restuarant->AddTotalDiscount(type, minimum, discount);
+                }
+            }
+            if (i == 3)
+            {
+                stringstream Y(word);
+                string kalameh;
+                string type;
+                int discount;
+                bool is_discount = true;
+
+                for (int j = 1; getline(Y, kalameh, ';'); j++)
+                {
+                    if (kalameh == "none")
+                    {
+                        is_discount = false;
+                        break;
+                    }
+                    if (j == 1)
+                    {
+                        type = kalameh;
+                    }
+                    if (j == 2)
+                    {
+                        discount = stoi(kalameh);
+                    }
+                }
+                if (is_discount)
+                {
+                    restuarant->AddFirstOrderDiscount(type, discount);
+                }
+            }
+            if (i == 4)
+            {
+                stringstream Y(word);
+                string kalameh;
+                string type;
+                string food_name;
+                int discount;
+                bool is_discount = true;
+
+                for (int j = 1; getline(Y, kalameh, '|'); j++)
+                {
+                    if (kalameh == "none")
+                    {
+                        is_discount = false;
+                        break;
+                    }
+                    stringstream Z(kalameh);
+                    string loghat;
+                    for (int k = 1; getline(Z, loghat, ';'); k++)
+                    {
+                        if (k == 1)
+                        {
+                            type = loghat;
+                        }
+                        if (k == 2)
+                        {
+                            stringstream A(loghat);
+                            string vazheh;
+                            for (int l = 1; getline(A, vazheh, ':'); l++)
+                            {
+                                if (l == 1)
+                                {
+                                    food_name = vazheh;
+                                    menu_item = restuarant->FindMenuItem(food_name);
+                                }
+                                if (l == 2)
+                                {
+                                    discount = stoi(vazheh);
+                                }
+                            }
+                            if (is_discount)
+                            {
+                                menu_item->AddFoodDiscount(type, discount);
+                            }
+                            
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 void UTaste::CheckUserLogin()
 {
     if (user == nullptr)

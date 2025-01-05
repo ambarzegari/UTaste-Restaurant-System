@@ -14,6 +14,7 @@ public:
     UTaste();
     void GetDataFromResturantsFile(char argv[]);
     void GetDataFromDistrictsFile(char argv[]);
+    void GetDataFromDiscountsFile(char argv[]);
     void CheckUserLogin();
     void IoHandler();
 
