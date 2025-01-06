@@ -467,6 +467,7 @@ void UTaste::IncreaseBudget(vector<string> requests)
     }
 
     user->SetBudget(b);
+    cout << OK << endl;
 }
 
 void UTaste::PUTHandler(vector<string> requests)

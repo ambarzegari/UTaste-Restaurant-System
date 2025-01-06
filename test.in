@@ -12,4 +12,7 @@ GET show_budget ?
 GET restaurant_detail ? restaurant_name "amme joon"
 GET reserve ?
 GET reserve ? restaurant_name "amooo hasan"
-GET reserve ? restaurant_name "amooo hasan" reserve_id "2"
+GET reserve ? restaurant_name "amooo hasan" reserve_id "1"
+GET show_budget ?
+DELETE reserve ? restaurant_name "amooo hasan" reserve_id "1"
+GET show_budget ?

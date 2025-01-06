@@ -227,9 +227,9 @@ void Resturant::DeleteReserve(int res_id, User *user)
             }
             reserve.erase(find(reserve.begin(), reserve.end(), res));
             user->SetBudget(res->GetTotalPrice() * 0.6);
-            res->GetTotalPrice();
             delete res;
             cout << OK << endl;
+            cout << "A" << endl;
             return;
         }
     }
@@ -524,7 +524,6 @@ District *User::GetDistrict()
 void User::SetBudget(int b)
 {
     budget = budget + b;
-    cout << OK << endl;
 }
 
 int User::GetBudget()
