@@ -27,7 +27,7 @@ void Reserve::Show()
     {
         cout << fr.first->GetName() << "(" << fr.second << ")" << " ";
     }
-
+    cout << original_price << " " << original_price - first_order_dis - total_item_dis - total_price_dis;
     cout << endl;
 }
 void Reserve::SetDiscount(int original, int first_order, int total_item, int total_price)
@@ -226,6 +226,8 @@ void Resturant::DeleteReserve(int res_id, User *user)
                 throw runtime_error(PERMISSION_DENIED);
             }
             reserve.erase(find(reserve.begin(), reserve.end(), res));
+            user->SetBudget(res->GetTotalPrice() * 0.6);
+            res->GetTotalPrice();
             delete res;
             cout << OK << endl;
             return;

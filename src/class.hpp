@@ -91,7 +91,6 @@ public:
     void SetBudget(int b);
     int GetBudget();
     void ReduceBudget(int n);
-    int IncreaseBudget(int n) { budget += 0.6 * n; }
 };
 
 class Reserve
@@ -118,6 +117,7 @@ public:
     User *GetUser() { return user; };
     void Show();
     void SetDiscount(int original, int first_order, int total_item, int total_price);
+    int GetTotalPrice() { return original_price - first_order_dis - total_item_dis - total_price_dis; }
 };
 
 class MenuItem
