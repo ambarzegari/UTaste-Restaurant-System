@@ -13,3 +13,4 @@ POST increase_budget ? amount "-850"
 GET show_budget ?
 POST increase_budget ? amount "20"
 GET show_budget ?
+GET restaurant_detail ? restaurant_name "maman joon"

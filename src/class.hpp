@@ -125,6 +125,7 @@ public:
     string GetName();
     int Getprice();
     void AddFoodDiscount(string t_, int dis_);
+    FoodDiscount* GetFoodDiscount() { return food_discount; }
 };
 
 class Discount
@@ -135,6 +136,8 @@ protected:
 
 public:
     Discount(string t_, int dis_);
+    virtual string GetType() { return type; }
+    virtual int GetDiscount() { return discount; }
 };
 
 class TotalPriceDiscount : public Discount
@@ -143,6 +146,7 @@ private:
     int minimum;
 public:
     TotalPriceDiscount(string t_, int dis_, int min_);
+    int GetMinimum() { return minimum; }
 };
 
 class FirstOrderDiscount : public Discount

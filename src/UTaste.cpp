@@ -261,7 +261,6 @@ void UTaste::GetDataFromDiscountsFile(char argv[])
                             {
                                 menu_item->AddFoodDiscount(type, discount);
                             }
-                            
                         }
                     }
                 }

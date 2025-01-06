@@ -35,6 +35,7 @@ MenuItem::MenuItem(string n, int p)
 {
     name = n;
     price = p;
+    food_discount = nullptr;
 }
 
 string MenuItem::GetName()
@@ -237,6 +238,61 @@ void Resturant::ShowRestaurantInfo(District *dist)
         }
         cout << endl;
     }
+    if (total_price_discount != nullptr)
+    {
+        if (total_price_discount->GetType() == "percent")
+        {
+            cout << "Order Amount Discount: " << "percentage, " << total_price_discount->GetMinimum() << ", " << total_price_discount->GetDiscount() << endl;
+        }
+        if (total_price_discount->GetType() == "amount")
+        {
+            cout << "Order Amount Discount: " << "amount, " << total_price_discount->GetMinimum() << ", " << total_price_discount->GetDiscount() << endl;
+        }
+    }
+
+    int l = 1;
+    int k = 1;
+    for (auto menu : menu_item)
+    {
+        if (menu->GetFoodDiscount() != nullptr)
+        {
+            if (l == 1)
+            {
+                cout << "Item Specific Discount: ";
+                l++;
+            }
+
+            if (k != 1)
+            {
+                cout << ", ";
+            }
+            if (menu->GetFoodDiscount()->GetType() == "percent")
+            {
+                cout << menu->GetName() << "(" << "percentage: " << menu->GetFoodDiscount()->GetDiscount() << ")";
+            }
+            if (menu->GetFoodDiscount()->GetType() == "amount")
+            {
+                cout << menu->GetName() << "(" << "amount: " << menu->GetFoodDiscount()->GetDiscount() << ")";
+            }
+            k++;
+        }
+    }
+    if (l == 2)
+    {
+        cout << endl;
+    }
+
+    if (first_order_discount != nullptr)
+    {
+        if (first_order_discount->GetType() == "percent")
+        {
+            cout << "First Order Discount: " << "percentage, " << first_order_discount->GetDiscount() << endl;
+        }
+        if (first_order_discount->GetType() == "amount")
+        {
+            cout << "First Order Discount: " << "amount, " << first_order_discount->GetDiscount() << endl;
+        }
+    }
 }
 
 void Resturant::AddTotalDiscount(string t_, int min_, int dis_)
@@ -420,7 +476,7 @@ Discount::Discount(string t_, int dis_)
     discount = dis_;
 }
 
-TotalPriceDiscount::TotalPriceDiscount(string t_, int dis_, int min_) : Discount(t_, dis_)
+TotalPriceDiscount::TotalPriceDiscount(string t_, int min_, int dis_) : Discount(t_, dis_)
 {
     minimum = min_;
 }
