@@ -23,8 +23,8 @@ private:
     int number_of_tables;
     int Reserve_num;
     vector<Reserve *> reserve;
-    TotalPriceDiscount* total_price_discount;
-    FirstOrderDiscount* first_order_discount;
+    TotalPriceDiscount *total_price_discount;
+    FirstOrderDiscount *first_order_discount;
 
 public:
     Resturant(string n, string menu, int op, int cl, int num);
@@ -36,9 +36,9 @@ public:
     void ShowReserve(User *user, int res_id);
     void SortMenuItemVector();
     void ShowRestaurantInfo(District *dist);
-    void AddTotalDiscount(string t_ ,int min_, int dis_);
+    void AddTotalDiscount(string t_, int min_, int dis_);
     void AddFirstOrderDiscount(string t_, int dis_);
-    MenuItem* FindMenuItem(string n_);
+    MenuItem *FindMenuItem(string n_);
 };
 
 class District
@@ -90,6 +90,8 @@ public:
     District *GetDistrict();
     void SetBudget(int b);
     int GetBudget();
+    void ReduceBudget(int n);
+    int IncreaseBudget(int n) { budget += 0.6 * n; }
 };
 
 class Reserve
@@ -101,6 +103,10 @@ private:
     int end_time;
     int table_id;
     int reserve_id;
+    int original_price;
+    int first_order_dis;
+    int total_item_dis;
+    int total_price_dis;
     vector<MenuItem *> foods;
 
 public:
@@ -111,6 +117,7 @@ public:
     int GetReserveID() { return reserve_id; };
     User *GetUser() { return user; };
     void Show();
+    void SetDiscount(int original, int first_order, int total_item, int total_price);
 };
 
 class MenuItem
@@ -118,14 +125,14 @@ class MenuItem
 private:
     string name;
     int price;
-    FoodDiscount* food_discount;
+    FoodDiscount *food_discount;
 
 public:
     MenuItem(string n, int p);
     string GetName();
     int Getprice();
     void AddFoodDiscount(string t_, int dis_);
-    FoodDiscount* GetFoodDiscount() { return food_discount; }
+    FoodDiscount *GetFoodDiscount() { return food_discount; }
 };
 
 class Discount
@@ -138,12 +145,14 @@ public:
     Discount(string t_, int dis_);
     virtual string GetType() { return type; }
     virtual int GetDiscount() { return discount; }
+    virtual int CalculateDiscount(int price);
 };
 
 class TotalPriceDiscount : public Discount
 {
 private:
     int minimum;
+
 public:
     TotalPriceDiscount(string t_, int dis_, int min_);
     int GetMinimum() { return minimum; }
@@ -160,6 +169,5 @@ class FoodDiscount : public Discount
 public:
     FoodDiscount(string t_, int dis_);
 };
-
 
 #endif

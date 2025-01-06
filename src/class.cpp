@@ -30,6 +30,13 @@ void Reserve::Show()
 
     cout << endl;
 }
+void Reserve::SetDiscount(int original, int first_order, int total_item, int total_price)
+{
+    original_price = original;
+    first_order_dis = first_order;
+    total_item_dis = total_item;
+    total_price_dis = total_price;
+}
 
 MenuItem::MenuItem(string n, int p)
 {
@@ -125,8 +132,61 @@ void Resturant::AddReserve(Resturant *res, User *us, int st, int et, int tid, ve
         throw runtime_error(PERMISSION_DENIED);
     }
 
+    int original_price = 0;
+    int total_item_specific_discount = 0;
+    int first_order_dis = 0;
+    int order_dis = 0;
+    for (auto food : f)
+    {
+        original_price += food->Getprice();
+        if (food->GetFoodDiscount() != nullptr)
+        {
+            total_item_specific_discount += food->GetFoodDiscount()->CalculateDiscount(food->Getprice());
+        }
+    }
+    bool is_first_order = true;
+    for (auto res : reserve)
+    {
+        if (res->GetUser() == us)
+        {
+            is_first_order = false;
+        }
+    }
+    if (is_first_order)
+    {
+        if (first_order_discount != nullptr)
+        {
+            first_order_dis = first_order_discount->CalculateDiscount(original_price - total_item_specific_discount);
+        }
+    }
+    if (total_price_discount != nullptr)
+    {
+        if (original_price - first_order_dis - total_item_specific_discount > total_price_discount->GetMinimum())
+        {
+            order_dis = total_price_discount->CalculateDiscount(original_price - first_order_dis - total_item_specific_discount);
+        }
+    }
+    int total_dis = order_dis + first_order_dis + total_item_specific_discount;
+
+    us->ReduceBudget(original_price - total_dis);
+
     Reserve_num++;
     reserve.push_back(new Reserve(res, us, st, et, tid, Reserve_num, f));
+    cout << "Table " << tid << " for " << st << " to " << et << " in " << name << endl;
+
+    reserve[reserve.size() - 1]->SetDiscount(original_price, first_order_dis, total_item_specific_discount, order_dis);
+
+    cout << "Original Price: " << original_price << endl;
+
+    cout << "Order Amount Discount: " << order_dis << endl;
+
+    cout << "Total Item Specific: " << total_item_specific_discount << endl;
+
+    cout << "First Order Discount: " << first_order_dis << endl;
+
+    cout << "Toatal Discount: " << total_dis << endl;
+
+    cout << "Total Price: " << original_price - total_dis << endl;
 }
 
 void Resturant::ReserveHandler(vector<string> requests, User *user, Resturant *rest)
@@ -470,6 +530,16 @@ int User::GetBudget()
     return budget;
 }
 
+void User::ReduceBudget(int n)
+{
+    if (n > budget)
+    {
+        throw runtime_error(PERMISSION_DENIED);
+    }
+
+    budget -= n;
+}
+
 Discount::Discount(string t_, int dis_)
 {
     type = t_;
@@ -479,6 +549,18 @@ Discount::Discount(string t_, int dis_)
 TotalPriceDiscount::TotalPriceDiscount(string t_, int min_, int dis_) : Discount(t_, dis_)
 {
     minimum = min_;
+}
+
+int Discount::CalculateDiscount(int price)
+{
+    if (type == "percent")
+    {
+        return (price * discount / 100);
+    }
+    else if (type == "amount")
+    {
+        return discount;
+    }
 }
 
 FirstOrderDiscount::FirstOrderDiscount(string t_, int dis_) : Discount(t_, dis_)
