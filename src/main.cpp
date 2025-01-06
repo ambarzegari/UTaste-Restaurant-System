@@ -7,4 +7,5 @@ int main(int argc, char *argv[])
     utaste.GetDataFromResturantsFile(argv[1]);
     utaste.GetDataFromDiscountsFile(argv[3]);
     utaste.IoHandler();
+    return 0;
 }
