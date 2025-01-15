@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Main Page - UTaste</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+      text-align: center;
+    }
+
+    header {
+      background-color: #d35400;
+      color: #fff;
+      padding: 15px 0;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      color: #333;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .buttons a {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 1rem;
+      color: #fff;
+      background-color: #d35400;
+      border-radius: 5px;
+      text-decoration: none;
+      text-align: center;
+      transition: background-color 0.3s;
+    }
+
+    .buttons a:hover {
+      background-color: #e67e22;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Welcome to UTaste</h1>
+  </header>
+
+  <div class="container">
+    <h2>Hello, [User's Name]!</h2>
+    <p>What would you like to do today?</p>
+    <div class="buttons">
+      <a href="/restaurants-details">Restaurants Details</a>
+      <a href="/reserve">Reserve a Table</a>
+      <a href="/show-reservations">Show My Reservations</a>
+      <a href="/logout">Logout</a>
+    </div>
+  </div>
+</body>
+
+</html>

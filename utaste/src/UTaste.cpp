@@ -277,86 +277,8 @@ void UTaste::CheckUserLogin()
     }
 }
 
-void UTaste::IoHandler()
-{
-    string line;
-    vector<string> requests;
 
-    while (getline(cin, line))
-    {
-        requests = StringSplitter(line);
-
-        try
-        {
-            if (requests[0] == PUT)
-            {
-                CheckUserLogin();
-                PUTHandler(requests);
-            }
-            else if (requests[0] == GET)
-            {
-                CheckUserLogin();
-                GETHandler(requests);
-            }
-            else if (requests[0] == DELETE)
-            {
-                CheckUserLogin();
-                DELETEHandler(requests);
-            }
-            else if (requests[0] == POST)
-            {
-                POSTHandler(requests);
-            }
-            else
-            {
-                throw runtime_error(BAD_REQUEST);
-            }
-        }
-        catch (const std::invalid_argument &e)
-        {
-            cout << BAD_REQUEST << endl;
-        }
-        catch (const exception &e)
-        {
-            cout << e.what() << endl;
-        }
-
-        requests.clear();
-        line.clear();
-    }
-}
-
-void UTaste::POSTHandler(vector<string> requests)
-{
-    if (requests[1] == SIGN_UP)
-    {
-        SignUp(requests);
-    }
-    else if (requests[1] == LOG_IN)
-    {
-        LogIn(requests);
-    }
-    else if (requests[1] == LOG_OUT)
-    {
-        LogOut(requests);
-    }
-    else if (requests[1] == RESERVE)
-    {
-        CheckUserLogin();
-        ReserveHandler(requests);
-    }
-    else if (requests[1] == INCREASE_BUDGET)
-    {
-        CheckUserLogin();
-        IncreaseBudget(requests);
-    }
-    else
-    {
-        throw runtime_error(NOT_FOUND);
-    }
-}
-
-void UTaste::SignUp(vector<string> requests)
+void UTaste::SignUp(string u, string p)
 {
     if (user != nullptr)
     {
@@ -365,18 +287,14 @@ void UTaste::SignUp(vector<string> requests)
 
     for (auto user_ : app_users)
     {
-        if (user_->CheckUsername(requests[5]))
+        if (user_->CheckUsername(u))
         {
             throw runtime_error(BAD_REQUEST);
         }
     }
 
-    if (requests[3] != USER_NAME || requests[5] != PASSWORD)
-    {
-        throw runtime_error(NOT_FOUND);
-    }
 
-    User *new_user = new User(requests[4], requests[6]);
+    User *new_user = new User(u, p);
     user = new_user;
     app_users.push_back(new_user);
     cout << "OK" << endl;
@@ -470,17 +388,6 @@ void UTaste::IncreaseBudget(vector<string> requests)
     cout << OK << endl;
 }
 
-void UTaste::PUTHandler(vector<string> requests)
-{
-    if (requests[1] == MY_DISTRICT)
-    {
-        SetUserDistrict(requests);
-    }
-    else
-    {
-        throw runtime_error(NOT_FOUND);
-    }
-}
 
 void UTaste::SetUserDistrict(vector<string> requests)
 {
@@ -501,13 +408,6 @@ void UTaste::SetUserDistrict(vector<string> requests)
     throw runtime_error(NOT_FOUND);
 }
 
-void UTaste::DELETEHandler(vector<string> requests)
-{
-    if (requests[1] == RESERVE)
-    {
-        DeleteReserve(requests);
-    }
-}
 
 void UTaste::DeleteReserve(vector<string> requests)
 {
@@ -529,33 +429,6 @@ void UTaste::DeleteReserve(vector<string> requests)
     rest->DeleteReserve(stoi(requests[6]), user);
 }
 
-void UTaste::GETHandler(vector<string> requests)
-{
-    if (requests[1] == DISTRICTS)
-    {
-        ShowDistrict(requests);
-    }
-    else if (requests[1] == RESTAURANTS)
-    {
-        ShowResturantsList(requests);
-    }
-    else if (requests[1] == RESERVE)
-    {
-        ShowReserve(requests);
-    }
-    else if (requests[1] == RESTAURANT_DETAIL)
-    {
-        ShowRestaurantInfo(requests);
-    }
-    else if (requests[1] == SHOW_BUDGET)
-    {
-        ShowBudget(requests);
-    }
-    else
-    {
-        throw runtime_error(NOT_FOUND);
-    }
-}
 
 void UTaste::ShowDistrict(vector<string> requests)
 {

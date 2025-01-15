@@ -16,27 +16,24 @@ public:
     void GetDataFromDistrictsFile(char argv[]);
     void GetDataFromDiscountsFile(char argv[]);
     void CheckUserLogin();
-    void IoHandler();
 
-    void POSTHandler(vector<string> requests);
-    void SignUp(vector<string> requests);
+    void SignUp(string u, string p);
     void LogOut(vector<string> requests);
     void LogIn(vector<string> requests);
     void ReserveHandler(vector<string> requests);
     void IncreaseBudget(vector<string> requests);
 
-    void PUTHandler(vector<string> requests);
     void SetUserDistrict(vector<string> requests);
 
-    void DELETEHandler(vector<string> requests);
     void DeleteReserve(vector<string> requests);
 
-    void GETHandler(vector<string> requests);
     void ShowDistrict(vector<string> requests);
     void ShowResturantsList(vector<string> requests);
     void ShowReserve(vector<string> requests);
     void ShowRestaurantInfo(vector<string> requests);
     void ShowBudget(vector<string> requests);
+
+    User* GetUser(){ return user; }
 };
 
 #endif

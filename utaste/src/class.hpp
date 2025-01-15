@@ -91,6 +91,7 @@ public:
     void SetBudget(int b);
     int GetBudget();
     void ReduceBudget(int n);
+    string GetUsername() { return username; }
 };
 
 class Reserve
