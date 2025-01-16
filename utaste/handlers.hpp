@@ -7,39 +7,63 @@
 #include "../server/server.hpp"
 #include "src/UTaste.hpp"
 
+class LogoutHandler : public RequestHandler
+{
+private:
+    UTaste *utaste;
 
-class RandomNumberHandler : public RequestHandler {
 public:
-    Response* callback(Request*) override;
+    LogoutHandler(UTaste *ut) { utaste = ut; }
+    Response *callback(Request *) override;
 };
 
-class LoginHandler : public RequestHandler {
+class UserHandler : public RequestHandler
+{
 public:
-    LoginHandler(UTaste ut) { utaste = ut; }
-    Response* callback(Request*) override;
-    UTaste utaste;
+    UserHandler(UTaste *ut) { utaste = ut; }
+    Response *callback(Request *) override;
+    UTaste *utaste;
 };
 
-class SignupHandler : public RequestHandler {
+class RestaurantHandler : public RequestHandler
+{
 public:
-    SignupHandler(UTaste ut) { utaste = ut; }
-    Response* callback(Request*) override;
-    UTaste utaste;
+    RestaurantHandler(UTaste *ut) { utaste = ut; }
+    Response *callback(Request *) override;
+    UTaste *utaste;
 };
 
-class UploadHandler : public RequestHandler {
+class LoginHandler : public RequestHandler
+{
 public:
-    Response* callback(Request*) override;
+    LoginHandler(UTaste *ut) { utaste = ut; }
+    Response *callback(Request *) override;
+    UTaste *utaste;
 };
 
-class ColorHandler : public TemplateHandler {
+class SignupHandler : public RequestHandler
+{
 public:
-    ColorHandler(const std::string& filePath);
-    std::map<std::string, std::string> handle(Request* req) override;
+    SignupHandler(UTaste *ut) { utaste = ut; }
+    Response *callback(Request *) override;
+    UTaste *utaste;
 };
 
-Response* UserMainPage(UTaste ut);
+class UploadHandler : public RequestHandler
+{
+public:
+    Response *callback(Request *) override;
+};
+
+class ColorHandler : public TemplateHandler
+{
+public:
+    ColorHandler(const std::string &filePath);
+    std::map<std::string, std::string> handle(Request *req) override;
+};
+
+Response *UserMainPage(UTaste* ut);
+Response *RestaurantDetails(UTaste* ut);
 string find_exeption(runtime_error e);
-
 
 #endif // HANDLERS_HPP_INCLUDE

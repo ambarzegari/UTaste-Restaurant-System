@@ -3,51 +3,32 @@
 #include <cstdlib>
 #include <iostream>
 
-Response *RandomNumberHandler::callback(Request *req)
-{
-    Response *res = new Response();
-    res->setHeader("Content-Type", "text/html");
-
-    std::string randomNumber = std::to_string(std::rand() % 10 + 1);
-    std::string body;
-
-    body += "<!DOCTYPE html>";
-    body += "<html lang=\"en\">";
-
-    body += "<head>";
-    body += "  <title>Random Number Page</title>";
-    body += "</head>";
-
-    body += "<body style=\"text-align: center;\">";
-    body += "  <h1>AP HTTP</h1>";
-    body += "  <p>A random number in [1, 10] is: " + randomNumber + "</p>";
-    body += "  <p>SessionId: " + req->getSessionId() + "</p>";
-    body += "</body>";
-
-    body += "</html>";
-    res->setBody(body);
-    return res;
-}
-
-Response *LoginHandler::callback(Request *req)
-{
-    std::string username = req->getBodyParam("username");
-    std::string password = req->getBodyParam("password");
-    if (username == "root")
-    {
-        throw Server::Exception("Remote root access has been disabled.");
-    }
-    std::cout << "username: " << username << ",\tpassword: " << password << std::endl;
-    Response *res = Response::redirect("/");
-    res->setSessionId("SID");
-    return res;
-}
-
-Response *SignupHandler::callback(Request *req)
+Response *LogoutHandler::callback(Request *req)
 {
     try
     {
-        utaste.SignUp(req->getBodyParam("username"), req->getBodyParam("password"));
+        utaste->LogOut();
+    }
+    catch (const runtime_error &e)
+    {
+        string exception_url = find_exeption(e);
+        if (exception_url == "/ok")
+        {
+            Response *res = Response::redirect("/");
+            return res;
+        }
+        else
+        {
+            Response *res = Response::redirect(exception_url);
+            return res;
+        }
+    }
+}
+
+Response *UserHandler::callback(Request *req)
+{
+    try
+    {
         return UserMainPage(utaste);
     }
     catch (const runtime_error &e)
@@ -58,32 +39,54 @@ Response *SignupHandler::callback(Request *req)
     }
 }
 
-Response *UploadHandler::callback(Request *req)
+Response *RestaurantHandler::callback(Request *)
 {
-    std::string name = req->getBodyParam("file_name");
-    std::string file = req->getBodyParam("file");
-    utils::writeToFile(file, name);
-    Response *res = Response::redirect("/");
-    return res;
+    return RestaurantDetails(utaste);
 }
 
-ColorHandler::ColorHandler(const std::string &filePath)
-    : TemplateHandler(filePath) {}
-
-std::map<std::string, std::string> ColorHandler::handle(Request *req)
-{
-    std::string newName = "I am " + req->getQueryParam("name");
-    std::map<std::string, std::string> context;
-    context["name"] = newName;
-    context["color"] = req->getQueryParam("color");
-    return context;
-}
-
-Response *UserMainPage(UTaste utaste)
+Response *LoginHandler::callback(Request *req)
 {
     try
     {
-        User *user = utaste.GetUser();
+        utaste->LogIn(req->getBodyParam("username"), req->getBodyParam("password"));
+    }
+    catch (const runtime_error &e)
+    {
+        string exception_url = find_exeption(e);
+        if (exception_url == "/ok")
+        {
+            Response *res = Response::redirect("/main");
+            return res;
+        }
+        else
+        {
+            Response *res = Response::redirect(exception_url);
+            return res;
+        }
+    }
+}
+
+Response *SignupHandler::callback(Request *req)
+{
+    try
+    {
+        utaste->SignUp(req->getBodyParam("username"), req->getBodyParam("password"));
+        Response *res = Response::redirect("/main");
+        return res;
+    }
+    catch (const runtime_error &e)
+    {
+        string exception_url = find_exeption(e);
+        Response *res = Response::redirect(exception_url);
+        return res;
+    }
+}
+
+Response *UserMainPage(UTaste *utaste)
+{
+    try
+    {
+        User *user = utaste->GetUser();
         if (user == nullptr)
         {
             throw runtime_error(PERMISSION_DENIED);
@@ -97,8 +100,8 @@ Response *UserMainPage(UTaste utaste)
         body += "<html lang=\"en\">\n";
 
         body += "<head>\n";
-        body += "  <meta charset=\\\"UTF-8\\\">\n";
-        body += "  <meta name=\\\"viewport\\\" content=\\\"width=device-width, initial-scale=1.0\\\">\n";
+        body += "  <meta charset=\"UTF-8\">\n";
+        body += "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\\\">\n";
         body += "  <title>User Main Page - UTaste</title>\n";
         body += "  <style>\n";
         body += "    body {\n";
@@ -153,21 +156,21 @@ Response *UserMainPage(UTaste utaste)
         body += "    }\n";
         body += "  </style>\n";
         body += "</head>\n";
-        
+
         body += "<body>\n";
         body += "  <header>\n";
         body += "    <h1>Welcome to UTaste</h1>\n";
         body += "  </header>\n";
-        body += "  <div class=\\\"container\\\">\n";
+        body += "  <div class=\"container\">\n";
         body += "    <h2>Hello, ";
-        body += utaste.GetUser()->GetUsername();
+        body += utaste->GetUser()->GetUsername();
         body += "    </h2> \n";
         body += "    <p>What would you like to do today?</p>\n";
-        body += "    <div class=\\\"buttons\\\">\n";
-        body += "      <a href=\\\"/restaurants-details\\\">Restaurants Details</a>\n";
-        body += "      <a href=\\\"/reserve\\\">Reserve a Table</a>\n";
-        body += "      <a href=\\\"/show-reservations\\\">Show My Reservations</a>\n";
-        body += "      <a href=\\\"/logout\\\">Logout</a>\n";
+        body += "    <div class=\"buttons\">\n";
+        body += "      <a href=\"/restaurants-details\">Restaurants Details</a>\n";
+        body += "      <a href=\"/reserve\">Reserve a Table</a>\n";
+        body += "      <a href=\"/show-reservations\">Show My Reservations</a>\n";
+        body += "      <a href=\"/logout\">Logout</a>\n";
         body += "    </div>\n";
         body += "  </div>\n";
         body += "</body>\n";
@@ -204,5 +207,99 @@ string find_exeption(runtime_error e)
     else
     {
         return "/bad_request";
+    }
+}
+
+Response *RestaurantDetails(UTaste *ut)
+{
+    string s = ut->ShowRestaurantInfo();
+    try
+    {
+
+        Response *res = new Response();
+        res->setHeader("Content-Type", "text/html");
+
+        string body;
+        body += "<!DOCTYPE html>";
+        body += "<html lang=\"en\">";
+
+        body += "<head>";
+        body += "  <meta charset=\"UTF-8\">";
+        body += "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
+        body += "  <title>Restaurant Details - UTaste</title>";
+        body += "  <style>";
+        body += "    body {";
+        body += "      font-family: 'Arial', sans-serif;";
+        body += "      margin: 0;";
+        body += "      padding: 0;";
+        body += "      background-color: #f7f7f7;";
+        body += "      display: flex;";
+        body += "      flex-direction: column;";
+        body += "      align-items: center;";
+        body += "      height: auto;";
+        body += "      text-align: center;";
+        body += "    }";
+        body += "    header {";
+        body += "      background-color: #d35400;";
+        body += "      color: #fff;";
+        body += "      padding: 15px 0;";
+        body += "      width: 100%;";
+        body += "      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);";
+        body += "      text-align: center;";
+        body += "    }";
+        body += "    header h1 {";
+        body += "      margin: 0;";
+        body += "      font-size: 2.5rem;";
+        body += "    }";
+        body += "    .details-container {";
+        body += "      background-color: #fff;";
+        body += "      padding: 20px;";
+        body += "      border-radius: 10px;";
+        body += "      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);";
+        body += "      max-width: 700px;";
+        body += "      width: 90%;";
+        body += "      margin-top: 20px;";
+        body += "      height: auto;";
+        body += "      text-align: left;";
+        body += "      direction: ltr;";
+        body += "    }";
+        body += "    .back-button {";
+        body += "      margin-top: 20px;";
+        body += "      padding: 10px 20px;";
+        body += "      font-size: 1rem;";
+        body += "      color: #fff;";
+        body += "      background-color: #d35400;";
+        body += "      border: none;";
+        body += "      border-radius: 5px;";
+        body += "      cursor: pointer;";
+        body += "      text-decoration: none;";
+        body += "      transition: background-color 0.3s;";
+        body += "    }";
+        body += "    .back-button:hover {";
+        body += "      background-color: #e67e22;";
+        body += "    }";
+        body += "  </style>";
+        body += "</head>";
+
+        body += "<body>";
+        body += "  <header>";
+        body += "    <h1>Restaurant Details</h1>";
+        body += "  </header>";
+
+        body += "  <div class=\"details-container\">";
+        body += s;
+        body += "  </div>";
+
+        body += "  <a href=\"/main\" class=\"back-button\">Back to Main Page</a>";
+        body += "</body>";
+
+        body += "</html>";
+
+        res->setBody(body);
+        return res;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
     }
 }

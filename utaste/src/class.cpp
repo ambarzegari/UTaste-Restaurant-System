@@ -264,26 +264,27 @@ void Resturant::SortMenuItemVector()
          { return left->GetName() < right->GetName(); });
 }
 
-void Resturant::ShowRestaurantInfo(District *dist)
+string Resturant::ShowRestaurantInfo(District *dist)
 {
-    cout << "Name: " << name << "\n"
-         << "District: " << dist->GetName() << "\n"
-         << "Time: " << opening_time << "-" << closing_time << "\n"
-         << "Menu: ";
+    string s;
+    s +=  "Name: " + name + "<br>"
+         + "District: " + dist->GetName() + "<br>"
+         + "Time: " + to_string(opening_time) + "-" + to_string(closing_time) + "<br>"
+         + "Menu: ";
     for (auto item : menu_item)
     {
         if (item != *menu_item.begin())
         {
-            cout << ", ";
+            s += ", ";
         }
-        cout << item->GetName() << "(" << item->Getprice() << ")";
+        s += item->GetName() + "(" + to_string(item->Getprice()) + ")";
     }
 
-    cout << endl;
+    s += "<br>";
 
     for (int i = 1; i <= number_of_tables; i++)
     {
-        cout << i << ": ";
+        s += to_string(i) + ": ";
         int j = 0;
         for (auto res : reserve)
         {
@@ -292,23 +293,23 @@ void Resturant::ShowRestaurantInfo(District *dist)
             {
                 if (j != 0)
                 {
-                    cout << ", ";
+                    s += ", ";
                 }
-                cout << "(" << res->GetStartTime() << "-" << res->GetEndTime() << ")";
+                s += "(" + to_string(res->GetStartTime()) + "-" + to_string(res->GetEndTime()) + ")";
                 j++;
             }
         }
-        cout << endl;
+        s += "<br>";
     }
     if (total_price_discount != nullptr)
     {
         if (total_price_discount->GetType() == "percent")
         {
-            cout << "Order Amount Discount: " << "percentage, " << total_price_discount->GetMinimum() << ", " << total_price_discount->GetDiscount() << endl;
+            s += string("Order Amount Discount: ") + "percentage, " + to_string(total_price_discount->GetMinimum()) + ", " + to_string(total_price_discount->GetDiscount()) + "<br>";
         }
         if (total_price_discount->GetType() == "amount")
         {
-            cout << "Order Amount Discount: " << "amount, " << total_price_discount->GetMinimum() << ", " << total_price_discount->GetDiscount() << endl;
+            s += string("Order Amount Discount: ") + "amount, " + to_string(total_price_discount->GetMinimum()) + ", " + to_string(total_price_discount->GetDiscount()) + "<br>";
         }
     }
 
@@ -320,7 +321,7 @@ void Resturant::ShowRestaurantInfo(District *dist)
         {
             if (l == 1)
             {
-                cout << "Item Specific Discount: ";
+                s += "Item Specific Discount: ";
                 l++;
             }
 
@@ -330,31 +331,32 @@ void Resturant::ShowRestaurantInfo(District *dist)
             }
             if (menu->GetFoodDiscount()->GetType() == "percent")
             {
-                cout << menu->GetName() << "(" << "percentage: " << menu->GetFoodDiscount()->GetDiscount() << ")";
+                s += menu->GetName() + "(" + "percentage: " + to_string(menu->GetFoodDiscount()->GetDiscount()) + ")";
             }
             if (menu->GetFoodDiscount()->GetType() == "amount")
             {
-                cout << menu->GetName() << "(" << "amount: " << menu->GetFoodDiscount()->GetDiscount() << ")";
+                s += menu->GetName() + "(" + "amount: " + to_string(menu->GetFoodDiscount()->GetDiscount()) + ")";
             }
             k++;
         }
     }
     if (l == 2)
     {
-        cout << endl;
+        s += "<br>";
     }
 
     if (first_order_discount != nullptr)
     {
         if (first_order_discount->GetType() == "percent")
         {
-            cout << "First Order Discount: " << "percentage, " << first_order_discount->GetDiscount() << endl;
+            s += string("First Order Discount: ") + "percentage, " + to_string(first_order_discount->GetDiscount()) + "<br>";
         }
         if (first_order_discount->GetType() == "amount")
         {
-            cout << "First Order Discount: " << "amount, " << first_order_discount->GetDiscount() << endl;
+            s += string("First Order Discount: ") + "amount, " + to_string(first_order_discount->GetDiscount()) + "<br>";
         }
     }
+    return s;
 }
 
 void Resturant::AddTotalDiscount(string t_, int min_, int dis_)

@@ -35,7 +35,7 @@ public:
     void DeleteReserve(int res_id, User *user);
     void ShowReserve(User *user, int res_id);
     void SortMenuItemVector();
-    void ShowRestaurantInfo(District *dist);
+    string ShowRestaurantInfo(District *dist);
     void AddTotalDiscount(string t_, int min_, int dis_);
     void AddFirstOrderDiscount(string t_, int dis_);
     MenuItem *FindMenuItem(string n_);

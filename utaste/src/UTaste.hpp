@@ -18,8 +18,8 @@ public:
     void CheckUserLogin();
 
     void SignUp(string u, string p);
-    void LogOut(vector<string> requests);
-    void LogIn(vector<string> requests);
+    void LogOut();
+    void LogIn(string, string);
     void ReserveHandler(vector<string> requests);
     void IncreaseBudget(vector<string> requests);
 
@@ -30,10 +30,10 @@ public:
     void ShowDistrict(vector<string> requests);
     void ShowResturantsList(vector<string> requests);
     void ShowReserve(vector<string> requests);
-    void ShowRestaurantInfo(vector<string> requests);
+    string ShowRestaurantInfo();
     void ShowBudget(vector<string> requests);
 
-    User* GetUser(){ return user; }
+    User *GetUser() { return user; }
 };
 
 #endif

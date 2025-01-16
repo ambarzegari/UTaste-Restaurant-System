@@ -277,7 +277,6 @@ void UTaste::CheckUserLogin()
     }
 }
 
-
 void UTaste::SignUp(string u, string p)
 {
     if (user != nullptr)
@@ -293,20 +292,13 @@ void UTaste::SignUp(string u, string p)
         }
     }
 
-
     User *new_user = new User(u, p);
     user = new_user;
     app_users.push_back(new_user);
-    cout << "OK" << endl;
 }
 
-void UTaste::LogOut(vector<string> requests)
+void UTaste::LogOut()
 {
-    if (user == nullptr)
-    {
-        throw runtime_error(PERMISSION_DENIED);
-    }
-
     for (auto user_ : app_users)
     {
         if (user_ == user)
@@ -315,30 +307,25 @@ void UTaste::LogOut(vector<string> requests)
         }
     }
     user = nullptr;
-    cout << OK << endl;
+    throw runtime_error(OK);
 }
 
-void UTaste::LogIn(vector<string> requests)
+void UTaste::LogIn(string u, string pas)
 {
     if (user != nullptr)
     {
         throw runtime_error(PERMISSION_DENIED);
     }
 
-    if (requests[3] != USER_NAME || requests[5] != PASSWORD)
-    {
-        throw runtime_error(NOT_FOUND);
-    }
-
     for (auto user_ : app_users)
     {
-        if (user_->CheckUsername(requests[4]))
+        if (user_->CheckUsername(u))
         {
-            if (user_->CheckPassword(requests[6]))
+            if (user_->CheckPassword(pas))
             {
                 user = user_;
                 user->ChangeStateToInApp();
-                cout << OK << endl;
+                throw runtime_error(OK);
                 return;
             }
             else
@@ -388,7 +375,6 @@ void UTaste::IncreaseBudget(vector<string> requests)
     cout << OK << endl;
 }
 
-
 void UTaste::SetUserDistrict(vector<string> requests)
 {
     if (requests[3] != DISTRICT)
@@ -407,7 +393,6 @@ void UTaste::SetUserDistrict(vector<string> requests)
     }
     throw runtime_error(NOT_FOUND);
 }
-
 
 void UTaste::DeleteReserve(vector<string> requests)
 {
@@ -428,7 +413,6 @@ void UTaste::DeleteReserve(vector<string> requests)
 
     rest->DeleteReserve(stoi(requests[6]), user);
 }
-
 
 void UTaste::ShowDistrict(vector<string> requests)
 {
@@ -540,23 +524,22 @@ void UTaste::ShowReserve(vector<string> requests)
     }
 }
 
-void UTaste::ShowRestaurantInfo(vector<string> requests)
+string UTaste::ShowRestaurantInfo()
 {
     District *curr;
-    Resturant *curr_rest = nullptr;
-    for (auto dist : districts)
+    vector<Resturant *> curr_rest;
+    string s;
+     for (auto dist : districts)
     {
-        if (dist->FindRestaurant(requests[4]) != nullptr)
+        curr_rest = dist->GetRestaurants();
+        for (auto res : curr_rest)
         {
-            curr_rest = dist->FindRestaurant(requests[4]);
-            curr = dist;
+            s += res->ShowRestaurantInfo(dist);
+            s += "<br>";
         }
+        
     }
-    if (curr_rest == nullptr)
-    {
-        throw runtime_error(NOT_FOUND);
-    }
-    curr_rest->ShowRestaurantInfo(curr);
+    return s;
 }
 
 void UTaste::ShowBudget(vector<string> requests)

@@ -5,9 +5,9 @@
 #include "handlers.hpp"
 #include "src/UTaste.hpp"
 
-const int PORT = 8080;
+const int PORT = 9090;
 
-void mapServerPaths(Server &server , UTaste ut)
+void mapServerPaths(Server &server , UTaste *ut)
 {
     server.setNotFoundErrPage("static/not_found.html");
     server.get("/not_found",new ShowPage("static/not_found.html"));
@@ -16,25 +16,22 @@ void mapServerPaths(Server &server , UTaste ut)
     server.get("/", new ShowPage("static/home.html"));
     server.get("/signup", new ShowPage("static/signup.html"));
     server.post("/signup", new SignupHandler(ut));
+    server.get("/main", new UserHandler(ut));
+    server.get("/restaurants-details", new RestaurantHandler(ut));
+    server.get("/logout", new LogoutHandler(ut));
     server.get("/ut.png", new ShowImage("static/ut.png"));
-    server.get("/rand", new RandomNumberHandler());
     server.get("/login", new ShowPage("static/login.html"));
     server.post("/login", new LoginHandler(ut));
-    server.get("/up", new ShowPage("static/upload_form.html"));
-    server.post("/up", new UploadHandler());
-    server.get("/colors", new ColorHandler("template/colors.html"));
-    server.get("/music", new ShowPage("static/music.html"));
-    server.get("/music/moonlight.mp3", new ShowFile("static/moonlight.mp3", "audio/mpeg"));
 }
 
 int main(int argc, char **argv)
 {
     try
     {
-        UTaste utaste;
-        utaste.GetDataFromDistrictsFile(argv[2]);
-        utaste.GetDataFromResturantsFile(argv[1]);
-        utaste.GetDataFromDiscountsFile(argv[3]);
+        UTaste *utaste = new UTaste();
+        utaste->GetDataFromDistrictsFile(argv[2]);
+        utaste->GetDataFromResturantsFile(argv[1]);
+        utaste->GetDataFromDiscountsFile(argv[3]);
 
         int port = PORT;
         Server server(port);
