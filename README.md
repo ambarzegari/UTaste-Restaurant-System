@@ -13,7 +13,6 @@ This library is based on simplified versions of [W++](http://konteck.github.io/w
 
 پیاده‌سازی یک سیستم کامل رزرو رستوران در سه فاز مجزا با استفاده از C++
 
-![نمونه سیستم](screenshots/system_overview.png)
 
 ## ویژگی‌های اصلی
 
