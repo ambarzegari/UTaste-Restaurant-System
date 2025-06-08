@@ -33,3 +33,18 @@ This library is based on simplified versions of [W++](http://konteck.github.io/w
 - سیستم session برای مدیریت کاربران
 - APIهای RESTful برای دسترسی به داده‌ها
 - گزارش‌های تحلیلی
+
+
+
+
+# ثبت نام کاربر
+POST signup ? username "user1" password "pass123"
+
+# ورود به سیستم
+POST login ? username "user1" password "pass123"
+
+# جستجوی رستوران
+GET restaurants ? food_name "Pizza"
+
+# رزرو میز
+POST reserve ? restaurant_name "PizzaHouse" table_id "3" start_time "19" end_time "21" foods "Pizza,Margarita"
