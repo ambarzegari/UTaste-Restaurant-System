@@ -7,3 +7,30 @@ AP HTTP
 
 **AP HTTP::_server_** is a simple web application server-side blocking framework for C++.  
 This library is based on simplified versions of [W++](http://konteck.github.io/wpp/), [HappyHTTP](http://scumways.com/happyhttp/happyhttp.html), and [cpp-netlib](http://cpp-netlib.org/).
+
+
+# سیستم رزرو رستوران UTaste
+
+پیاده‌سازی یک سیستم کامل رزرو رستوران در سه فاز مجزا با استفاده از C++
+
+![نمونه سیستم](screenshots/system_overview.png)
+
+## ویژگی‌های اصلی
+
+### فاز 1: پایه‌ای
+- سیستم ثبت نام و ورود کاربران
+- مدیریت محله‌ها و رستوران‌ها
+- قابلیت جستجو و رزرو رستوران‌ها
+- نمایش منوها و زمان‌بندی رزروها
+
+### فاز 2: پیشرفته
+- سیستم کیف پول کاربران
+- مکانیزم‌های مختلف تخفیف‌دهی
+- محاسبه خودکار هزینه‌ها با اعمال تخفیف‌ها
+- گزارش‌گیری پیشرفته
+
+### فاز 3: وب‌محور
+- رابط کاربری مبتنی بر وب با HTML/CSS
+- سیستم session برای مدیریت کاربران
+- APIهای RESTful برای دسترسی به داده‌ها
+- گزارش‌های تحلیلی
